@@ -1,2 +1,2 @@
 VerticallyScrollingComics
-Members: Joe C. Bernstein, 
+Members: Joe C. Bernstein, Ethan Coates
