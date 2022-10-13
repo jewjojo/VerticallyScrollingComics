@@ -2,4 +2,5 @@
 <resources>
     <string name="continue_reading">Continue Reading</string>
     <string name="browse">Browse</string>
+    <string name="account">Account</string>
 </resources>

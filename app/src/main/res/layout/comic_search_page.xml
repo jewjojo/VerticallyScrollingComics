@@ -17,33 +17,45 @@
 
         <Button
             android:id="@+id/buttonBrowse"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:text="@string/browse"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:layout_weight="0.1"
+            android:minWidth="0dp"
+            android:text="@string/browse" />
 
         <Button
             android:id="@+id/buttonContinueReading"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:text="@string/continue_reading"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:layout_weight="0.25"
+            android:minWidth="0dp"
+            android:text="@string/continue_reading" />
 
         <Button
             android:id="@+id/buttonCreate"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.3"
-            android:text="@string/create"
-            style="?android:attr/buttonBarButtonStyle" />
+            android:layout_weight="0.15"
+            android:minWidth="0dp"
+            android:text="@string/create" />
+
+        <Button
+            android:id="@+id/buttonAccount"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:minWidth="0dp"
+            android:text="@string/account" />
     </LinearLayout>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
