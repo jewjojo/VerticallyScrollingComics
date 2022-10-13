@@ -8,10 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.umdproject.verticallyscrollingcomics.R
 
-class MainFragment : Fragment() {
+class CreateFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = CreateFragment()
     }
 
     private lateinit var viewModel: MainViewModel
@@ -20,7 +20,7 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_main, container, false)
+        return inflater.inflate(R.layout.browse_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
