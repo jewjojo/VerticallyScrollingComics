@@ -1,17 +1,53 @@
 package com.umdproject.verticallyscrollingcomics
 
-import androidx.appcompat.app.AppCompatActivity
+import android.R
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.umdproject.verticallyscrollingcomics.databinding.HomePageBinding
+import com.umdproject.verticallyscrollingcomics.ui.main.AccountFragment
 import com.umdproject.verticallyscrollingcomics.ui.main.BrowseFragment
+import com.umdproject.verticallyscrollingcomics.ui.main.ContinueReadingFragment
+import com.umdproject.verticallyscrollingcomics.ui.main.CreateFragment
+
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.home_page)
+        val binding = HomePageBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainerView, BrowseFragment.newInstance())
+                .replace(binding.fragmentContainerView.id, AccountFragment.newInstance())
+                .commitNow()
+        }
+
+        // change fragment on browse press
+        binding.buttonBrowse.setOnClickListener {
+            supportFragmentManager.beginTransaction()
+                .replace(binding.fragmentContainerView.id, BrowseFragment.newInstance())
+                .commitNow()
+        }
+
+        // change fragment on Continue Reading press
+        binding.buttonContinueReading.setOnClickListener {
+            supportFragmentManager.beginTransaction()
+                .replace(binding.fragmentContainerView.id, ContinueReadingFragment.newInstance())
+                .commitNow()
+        }
+
+        // change fragment on Create press
+        binding.buttonCreate.setOnClickListener {
+            supportFragmentManager.beginTransaction()
+                .replace(binding.fragmentContainerView.id, CreateFragment.newInstance())
+                .commitNow()
+        }
+
+        // change fragment on Account press
+        binding.buttonAccount.setOnClickListener {
+            supportFragmentManager.beginTransaction()
+                .replace(binding.fragmentContainerView.id, AccountFragment.newInstance())
                 .commitNow()
         }
     }
