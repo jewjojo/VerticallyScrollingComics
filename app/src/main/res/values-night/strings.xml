@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="continue_reading">Continue Reading</string>
     <string name="browse">Browse</string>
     <string name="account">Account</string>
     <string name="continue_10_reading">Continue\nReading</string>
