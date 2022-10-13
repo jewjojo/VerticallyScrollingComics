@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.1"
             android:minWidth="0dp"
+            android:autoSizeTextType="uniform"
             android:text="@string/browse" />
 
         <Button
@@ -31,6 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
             android:minWidth="0dp"
+            android:autoSizeTextType="uniform"
             android:text="@string/continue_reading" />
 
         <Button
@@ -40,6 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.15"
             android:minWidth="0dp"
+            android:autoSizeTextType="uniform"
             android:text="@string/create" />
 
         <Button
@@ -49,6 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:minWidth="0dp"
+            android:autoSizeTextType="uniform"
             android:text="@string/account" />
     </LinearLayout>
 
