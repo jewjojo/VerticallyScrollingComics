@@ -1,6 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">VerticallyScrollingComics</string>
     <string name="continue_reading">Continue Reading</string>
-    <string name="create">Create</string>
     <string name="browse">Browse</string>
 </resources>
