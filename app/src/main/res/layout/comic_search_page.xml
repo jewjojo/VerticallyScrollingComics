@@ -40,15 +40,13 @@
             style="?android:attr/buttonBarButtonStyle" />
     </LinearLayout>
 
-    <ScrollView
-        android:id="@+id/comicsScrollArea"
-        android:layout_width="fill_parent"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.8"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_default="percent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
-    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
