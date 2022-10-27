@@ -11,6 +11,7 @@ import com.umdproject.verticallyscrollingcomics.R
 // This fragment displays the list of comics the user has read before
 // implementation info on scrollable list in recycler view:
 // https://developer.android.com/codelabs/basic-android-kotlin-training-affirmations-app#3
+// https://developer.android.com/codelabs/basic-android-kotlin-training-display-list-cards/
 class ContinueReadingFragment : Fragment() {
 
     companion object {
