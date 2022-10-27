@@ -9,6 +9,12 @@ import android.view.ViewGroup
 import com.umdproject.verticallyscrollingcomics.R
 
 // This fragment displays the general browsing list for all comics available in app.
+// implementation info on scrollable list in recycler view:
+// https://developer.android.com/codelabs/basic-android-kotlin-training-affirmations-app#3
+// https://developer.android.com/codelabs/basic-android-kotlin-training-display-list-cards/
+
+// create onclick listener for each comic in the list
+// https://stackoverflow.com/questions/24471109/recyclerview-onclick
 class BrowseFragment : Fragment() {
 
     companion object {

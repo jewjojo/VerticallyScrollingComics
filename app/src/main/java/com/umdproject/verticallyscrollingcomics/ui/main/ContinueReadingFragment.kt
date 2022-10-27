@@ -12,6 +12,9 @@ import com.umdproject.verticallyscrollingcomics.R
 // implementation info on scrollable list in recycler view:
 // https://developer.android.com/codelabs/basic-android-kotlin-training-affirmations-app#3
 // https://developer.android.com/codelabs/basic-android-kotlin-training-display-list-cards/
+
+// create onclick listener for each comic in the list
+// https://stackoverflow.com/questions/24471109/recyclerview-onclick
 class ContinueReadingFragment : Fragment() {
 
     companion object {
