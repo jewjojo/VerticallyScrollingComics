@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.umdproject.verticallyscrollingcomics.R
 
+// This fragment handles and displays the login page and user auth to firebase.
 class AccountFragment : Fragment() {
 
     companion object {

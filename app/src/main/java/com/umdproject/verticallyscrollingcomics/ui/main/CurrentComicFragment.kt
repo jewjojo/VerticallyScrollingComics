@@ -8,25 +8,26 @@ import android.view.View
 import android.view.ViewGroup
 import com.umdproject.verticallyscrollingcomics.R
 
-// This fragment displays the general browsing list for all comics available in app.
-class BrowseFragment : Fragment() {
+// This fragment displays the comic currently being read, in coordination with it's ViewModel
+// The viewModel stores the pages of the comic currently being read, allowing the user to return later
+class CurrentComicFragment : Fragment() {
 
     companion object {
-        fun newInstance() = BrowseFragment()
+        fun newInstance() = CurrentComicFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: CurrentComicViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(R.layout.browse_fragment, container, false)
+    ): View? {
+        return inflater.inflate(R.layout.current_comic_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(CurrentComicViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
