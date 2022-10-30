@@ -18,6 +18,9 @@ class MainActivity : AppCompatActivity() {
         val binding = HomePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Splash Screen load in and hide
+        //supportActionbar?.hide()
+
         // Initialize Firebase APIs
         FirebaseInitProvider()
 
