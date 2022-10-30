@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "109086698518",
+    "project_id": "verticallyscrollingcomics",
+    "storage_bucket": "verticallyscrollingcomics.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:109086698518:android:cba343a5a3923e0c8c9937",
+        "android_client_info": {
+          "package_name": "com.umdproject.verticallyscrollingcomics"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "109086698518-1tsp64hkjtjtg3ahs4tfsia32iusbfik.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDULPeRugIqETjJkg1mvii0sdZGxhXSUi0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "109086698518-1tsp64hkjtjtg3ahs4tfsia32iusbfik.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

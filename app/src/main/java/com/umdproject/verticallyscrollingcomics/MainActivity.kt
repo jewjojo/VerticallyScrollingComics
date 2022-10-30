@@ -3,6 +3,7 @@ package com.umdproject.verticallyscrollingcomics
 import android.R
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.provider.FirebaseInitProvider
 import com.umdproject.verticallyscrollingcomics.databinding.HomePageBinding
 import com.umdproject.verticallyscrollingcomics.ui.main.AccountFragment
 import com.umdproject.verticallyscrollingcomics.ui.main.BrowseFragment
@@ -16,6 +17,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = HomePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Initialize Firebase APIs
+        FirebaseInitProvider()
+
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
