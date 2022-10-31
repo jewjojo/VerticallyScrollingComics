@@ -11,5 +11,10 @@ import com.umdproject.verticallyscrollingcomics.ui.fragments.CreateFragment
 
 
 class EditComicActivity : AppCompatActivity() {
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val binding = HomePageBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        supportActionBar?.hide()
+    }
 }
