@@ -1,4 +1,4 @@
-package com.umdproject.verticallyscrollingcomics.ui.main
+package com.umdproject.verticallyscrollingcomics
 
 import androidx.lifecycle.ViewModel
 
