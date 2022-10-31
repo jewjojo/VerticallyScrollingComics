@@ -13,4 +13,6 @@
     <string name="todo3">TODO</string>
     <string name="continue_10_reading">Continue\nReading</string>
     <string name="background">background</string>
+    <string name="custom_comic_editor">Custom Comic Editor</string>
+    <string name="save_and_exit">Save and Exit</string>
 </resources>
