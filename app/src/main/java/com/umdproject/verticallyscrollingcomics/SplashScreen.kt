@@ -15,6 +15,15 @@ class SplashScreen : AppCompatActivity() {
 
         supportActionBar?.hide()
 
+        // Without Timer
+        /*
+        val intent = Intent(this@SplashScreen, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+        */
+
+        // With Timer
+
         Handler(Looper.getMainLooper()).postDelayed({
             // Load the splash in and then hide after delay
             val intent = Intent(this@SplashScreen, MainActivity::class.java)
