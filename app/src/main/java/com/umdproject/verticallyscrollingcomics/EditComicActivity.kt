@@ -10,7 +10,7 @@ import com.umdproject.verticallyscrollingcomics.ui.fragments.BrowseFragment
 import com.umdproject.verticallyscrollingcomics.ui.fragments.ContinueReadingFragment
 import com.umdproject.verticallyscrollingcomics.ui.fragments.CreateFragment
 
-
+// check GraphicsPaint in class repo to paint toolbar
 class EditComicActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
