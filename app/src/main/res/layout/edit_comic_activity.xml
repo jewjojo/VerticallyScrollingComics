@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -45,6 +45,80 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/topBar">
+
+    </GridView>
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle"
+        android:rowCount="3"
+        android:columnCount="2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gridView">
+
+        <Button
+            android:id="@+id/rearrangePanelsButton"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoSizeTextType="uniform"
+            android:includeFontPadding="false"
+            android:maxLines="2"
+            android:text="Rearrange Panels"
+            tools:ignore="TouchTargetSizeCheck"></Button>
+        <Button
+            android:id="@+id/backgroundColorButton"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoSizeTextType="uniform"
+            android:includeFontPadding="false"
+            android:maxLines="2"
+            android:text="Background Color"
+            tools:ignore="TouchTargetSizeCheck"></Button>
+        <Button
+            android:id="@+id/hapticEffectsButton"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoSizeTextType="uniform"
+            android:includeFontPadding="false"
+            android:maxLines="2"
+            android:text="Haptic Effects"
+            tools:ignore="TouchTargetSizeCheck"></Button>
+        <Button
+            android:id="@+id/scrollSpeedButton"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoSizeTextType="uniform"
+            android:includeFontPadding="false"
+            android:maxLines="2"
+            android:text="Scroll Speed"
+            tools:ignore="TouchTargetSizeCheck"></Button>
+        <Button
+            android:id="@+id/panelSpacingButton"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoSizeTextType="uniform"
+            android:includeFontPadding="false"
+            android:maxLines="2"
+            android:text="Panel Spacing"
+            tools:ignore="TouchTargetSizeCheck"></Button>
+        <Button
+            android:id="@+id/previewComicButton"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoSizeTextType="uniform"
+            android:includeFontPadding="false"
+            android:maxLines="2"
+            android:text="Preview Comic"
+            tools:ignore="TouchTargetSizeCheck"></Button>
+    </GridLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
