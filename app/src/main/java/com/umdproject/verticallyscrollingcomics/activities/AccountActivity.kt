@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.umdproject.verticallyscrollingcomics.databinding.AccountActivityBinding
-import com.umdproject.verticallyscrollingcomics.ui.fragments.LoginSignupFragment
+import com.umdproject.verticallyscrollingcomics.ui.fragments.account.LoginSignupFragment
 
 class AccountActivity: AppCompatActivity() {
 

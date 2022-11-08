@@ -14,6 +14,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.umdproject.verticallyscrollingcomics.activities.EditComicActivity
 import com.umdproject.verticallyscrollingcomics.viewModels.MainViewModel
 import com.umdproject.verticallyscrollingcomics.R
+import com.umdproject.verticallyscrollingcomics.adapters.ComicAdapter
 
 
 // This fragment displays the create page for the user, and allows saving to firebase for created comics
