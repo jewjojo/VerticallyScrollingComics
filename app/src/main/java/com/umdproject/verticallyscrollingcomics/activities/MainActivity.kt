@@ -1,14 +1,14 @@
-package com.umdproject.verticallyscrollingcomics
+package com.umdproject.verticallyscrollingcomics.activities
 
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.JsonReader
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.provider.FirebaseInitProvider
+import com.umdproject.verticallyscrollingcomics.viewModels.MainViewModel
 import com.umdproject.verticallyscrollingcomics.databinding.HomePageBinding
 import com.umdproject.verticallyscrollingcomics.ui.fragments.*
 import java.io.File

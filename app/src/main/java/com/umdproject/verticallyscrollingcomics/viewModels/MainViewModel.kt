@@ -1,4 +1,4 @@
-package com.umdproject.verticallyscrollingcomics
+package com.umdproject.verticallyscrollingcomics.viewModels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

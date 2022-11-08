@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
-import com.umdproject.verticallyscrollingcomics.databinding.HomePageBinding
+import com.umdproject.verticallyscrollingcomics.activities.MainActivity
 
 class SplashScreen : AppCompatActivity() {
 

@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.auth.FirebaseAuth
-import com.umdproject.verticallyscrollingcomics.MainViewModel
+import com.umdproject.verticallyscrollingcomics.viewModels.MainViewModel
 import com.umdproject.verticallyscrollingcomics.R
 
 // This fragment handles and displays the login page and user auth to firebase.

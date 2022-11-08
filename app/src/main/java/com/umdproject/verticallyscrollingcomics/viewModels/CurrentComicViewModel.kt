@@ -1,4 +1,4 @@
-package com.umdproject.verticallyscrollingcomics.ui.fragments
+package com.umdproject.verticallyscrollingcomics.viewModels
 
 import android.graphics.Color
 import androidx.lifecycle.ViewModel

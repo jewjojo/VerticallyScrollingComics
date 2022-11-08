@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.umdproject.verticallyscrollingcomics.R
+import com.umdproject.verticallyscrollingcomics.viewModels.CurrentComicViewModel
 
 // This fragment displays the comic currently being read, in coordination with it's ViewModel
 // The viewModel stores the pages of the comic currently being read, allowing the user to return later

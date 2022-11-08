@@ -1,4 +1,4 @@
-package com.umdproject.verticallyscrollingcomics
+package com.umdproject.verticallyscrollingcomics.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
