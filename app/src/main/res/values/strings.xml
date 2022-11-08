@@ -6,8 +6,11 @@
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
+    <string name="login_string">Log In</string>
+    <string name="register_string">Register</string>
+    <string name="action_log_in">Log In</string>
+    <string name="action_sign_up">Sign Up</string>
+    <string name="action_sign_in_short">Sign In</string>
     <string name="todo">TODO</string>
     <string name="todo2">TODO</string>
     <string name="todo3">TODO</string>

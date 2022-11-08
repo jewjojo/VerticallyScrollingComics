@@ -1,11 +1,13 @@
 package com.umdproject.verticallyscrollingcomics
 
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.JsonReader
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.provider.FirebaseInitProvider
 import com.umdproject.verticallyscrollingcomics.databinding.HomePageBinding
 import com.umdproject.verticallyscrollingcomics.ui.fragments.*
@@ -17,6 +19,7 @@ import java.io.InputStreamReader
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +33,8 @@ class MainActivity : AppCompatActivity() {
         // Initialize Firebase APIs
         FirebaseInitProvider()
 
+        auth = FirebaseAuth.getInstance()
+
         // Something to do here: Set the viewModel's uid property to the user's ID. Need to do this before getting previews
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
@@ -38,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(binding.fragmentContainerView.id, AccountFragment.newInstance())
+                .replace(binding.fragmentContainerView.id, BrowseFragment.newInstance())
                 .commitNow()
         }
 
@@ -65,9 +70,11 @@ class MainActivity : AppCompatActivity() {
 
         // change fragment on Account press
         binding.buttonAccount.setOnClickListener {
-            supportFragmentManager.beginTransaction()
-                .replace(binding.fragmentContainerView.id, AccountFragment.newInstance())
-                .commitNow()
+//            supportFragmentManager.beginTransaction()
+//                .replace(binding.fragmentContainerView.id, AccountFragment.newInstance())
+//                .commitNow()
+            val intent = Intent(this, AccountActivity::class.java)
+            startActivity(intent)
         }
     }
 

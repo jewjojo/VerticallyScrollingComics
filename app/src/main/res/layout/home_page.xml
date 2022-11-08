@@ -69,7 +69,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        android:name="com.umdproject.verticallyscrollingcomics.ui.fragments.AccountFragment"
-        tools:layout="@layout/login_page" />
+        android:name="com.umdproject.verticallyscrollingcomics.ui.fragments.BrowseFragment"
+        tools:layout="@layout/browse_fragment" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
