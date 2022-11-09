@@ -6,9 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.umdproject.verticallyscrollingcomics.viewModels.MainViewModel
 import com.umdproject.verticallyscrollingcomics.R
+import com.umdproject.verticallyscrollingcomics.databinding.AccountActivityBinding
+import com.umdproject.verticallyscrollingcomics.databinding.AccountFragmentBinding
 
 // This fragment handles and displays the login page and user auth to firebase.
 class AccountFragment : Fragment() {
@@ -21,10 +24,26 @@ class AccountFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
-        val auth = requireNotNull(FirebaseAuth.getInstance())
-        val user = auth.currentUser
+        val binding = AccountFragmentBinding.inflate(inflater, container, false)
 
-        return inflater.inflate(R.layout.account_fragment, container, false)
+//        val auth = requireNotNull(FirebaseAuth.getInstance())
+//        val user = auth.currentUser
+
+        binding.logout.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+
+            Toast.makeText(
+                requireContext(),
+                "You are now logged out!",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainerView, LoginSignupFragment.newInstance())
+                .commitNow()
+        }
+
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

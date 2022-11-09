@@ -23,7 +23,16 @@
     <string name="custom_comic_editor">Custom Comic Editor</string>
     <string name="save_and_exit">Save and Exit</string>
 
+    <!-- Toast Message Strings-->
+    <string name="login_toast">Please enter email...</string>
+    <string name="password_toast">Please enter password!</string>
+
     <!-- Strings related to the create page -->
     <string name="edit">Edit</string>
     <string name="publish">Publish</string>
+    <string name="invalid_email">Please enter valid email...</string>
+    <string name="invalid_password">Password must contain 8 characters with one letter and one number!</string>
+    <string name="register_success_string">Registration successful!</string>
+    <string name="register_failed_string">Registration failed! Please try again later</string>
+    <string name="logout">Logout</string>
 </resources>
