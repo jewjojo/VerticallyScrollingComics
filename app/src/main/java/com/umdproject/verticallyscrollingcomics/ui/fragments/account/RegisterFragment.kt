@@ -33,6 +33,12 @@ class RegisterFragment : Fragment() {
 
         binding.register.setOnClickListener { registerNewUser() }
 
+        binding.fab.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainerView, LoginSignupFragment.newInstance())
+                .commitNow()
+        }
+
         return binding.root
     }
 
