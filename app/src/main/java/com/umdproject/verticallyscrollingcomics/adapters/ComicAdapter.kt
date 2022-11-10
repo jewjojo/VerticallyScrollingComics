@@ -32,8 +32,8 @@ class ComicAdapter(private val mContext: Context, comics: MutableList<LocalComic
         return null
     }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var convertView = convertView
+    override fun getView(position: Int, convertViewIn: View?, parent: ViewGroup): View {
+        var convertView = convertViewIn
         val comic: LocalComicPreview = comics!![position]
 
         if (convertView == null) {
