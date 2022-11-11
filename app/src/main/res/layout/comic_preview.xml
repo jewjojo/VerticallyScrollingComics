@@ -13,6 +13,7 @@
 
         <ImageView
             android:id="@+id/imageview_cover_art"
+            android:contentDescription="@string/coverart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
@@ -24,21 +25,31 @@
         android:id="@+id/textview_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
-        tools:text="asdasdasdasdasd"
-        android:textStyle="bold"
-        android:paddingTop="4dp"
+        android:gravity="center_horizontal"
         android:paddingLeft="8dp"
+        android:paddingTop="4dp"
         android:paddingRight="8dp"
-        android:gravity="center_horizontal"/>
+        android:textColor="#FFE0B2"
+        android:shadowColor="@color/black"
+        android:shadowDx="1.5"
+        android:shadowDy="1.3"
+        android:shadowRadius="1.6"
+        android:textStyle="bold"
+        tools:text="tempTitle" />
 
     <TextView
         android:id="@+id/textview_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
-        tools:text="asdasdasdasdasdasdas"
-        android:gravity="center_horizontal"/>
+        android:gravity="center_horizontal"
+        android:textColor="#FFE0B2"
+        android:shadowColor="@color/black"
+        android:shadowDx="1.5"
+        android:shadowDy="1.3"
+        android:shadowRadius="1.6"
+
+
+        tools:text="tempAuthor" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -66,7 +77,8 @@
             android:autoSizeTextType="uniform"
             android:includeFontPadding="false"
             android:maxLines="1"
-            android:text="@string/publish" />
+            android:text="@string/publish"
+            tools:ignore="TextContrastCheck" />
 
     </LinearLayout>
 

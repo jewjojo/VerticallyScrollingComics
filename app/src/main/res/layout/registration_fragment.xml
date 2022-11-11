@@ -11,19 +11,22 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/register_new_account_string" />
+        android:text="@string/register_new_account_string"
+        android:textColor="@color/design_default_color_on_primary"
+        />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/username_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColorHint="@color/white"
         android:hint="@string/email_hint_string">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@color/dark_gray"
             android:autofillHints="email"
             android:inputType="textEmailAddress"
             android:selectAllOnFocus="true" />
@@ -33,6 +36,7 @@
         android:id="@+id/password_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColorHint="@color/white"
         android:hint="@string/password_hint_string">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -41,7 +45,7 @@
             android:layout_height="wrap_content"
             android:autofillHints="password"
             android:imeOptions="actionDone"
-            android:background="@color/white"
+            android:background="@color/dark_gray"
             android:inputType="textPassword"
             android:selectAllOnFocus="true" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -50,7 +54,8 @@
         android:id="@+id/register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/register_string" />
+        android:text="@string/register_string"
+        tools:ignore="TextContrastCheck" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -64,6 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
-        android:src="@drawable/create_comic"/>
+        android:contentDescription="@string/fab"
+        android:src="@drawable/left_arrow"/>
 
 </LinearLayout>

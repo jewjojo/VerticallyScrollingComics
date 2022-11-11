@@ -35,7 +35,7 @@
             android:includeFontPadding="false"
             android:maxLines="2"
             android:text="@string/save_and_exit"
-            tools:ignore="TouchTargetSizeCheck"></Button>
+            tools:ignore="TouchTargetSizeCheck,TextContrastCheck"></Button>
     </LinearLayout>
 
     <GridView
@@ -67,8 +67,9 @@
             android:autoSizeTextType="uniform"
             android:includeFontPadding="false"
             android:maxLines="2"
-            android:text="Rearrange Panels"
-            tools:ignore="TouchTargetSizeCheck"></Button>
+            android:text="@string/rearrange_panels"
+            tools:ignore="TouchTargetSizeCheck,TextContrastCheck"></Button>
+
         <Button
             android:id="@+id/backgroundColorButton"
             style="?android:attr/buttonBarButtonStyle"
@@ -77,8 +78,9 @@
             android:autoSizeTextType="uniform"
             android:includeFontPadding="false"
             android:maxLines="2"
-            android:text="Background Color"
-            tools:ignore="TouchTargetSizeCheck"></Button>
+            android:text="@string/background_color"
+            tools:ignore="TouchTargetSizeCheck,TextContrastCheck"></Button>
+
         <Button
             android:id="@+id/hapticEffectsButton"
             style="?android:attr/buttonBarButtonStyle"
@@ -87,8 +89,9 @@
             android:autoSizeTextType="uniform"
             android:includeFontPadding="false"
             android:maxLines="2"
-            android:text="Haptic Effects"
-            tools:ignore="TouchTargetSizeCheck"></Button>
+            android:text="@string/haptic_effects"
+            tools:ignore="TouchTargetSizeCheck,TextContrastCheck"></Button>
+
         <Button
             android:id="@+id/scrollSpeedButton"
             style="?android:attr/buttonBarButtonStyle"
@@ -97,8 +100,9 @@
             android:autoSizeTextType="uniform"
             android:includeFontPadding="false"
             android:maxLines="2"
-            android:text="Scroll Speed"
-            tools:ignore="TouchTargetSizeCheck"></Button>
+            android:text="@string/scroll_speed"
+            tools:ignore="TouchTargetSizeCheck,TextContrastCheck"></Button>
+
         <Button
             android:id="@+id/panelSpacingButton"
             style="?android:attr/buttonBarButtonStyle"
@@ -107,8 +111,9 @@
             android:autoSizeTextType="uniform"
             android:includeFontPadding="false"
             android:maxLines="2"
-            android:text="Panel Spacing"
-            tools:ignore="TouchTargetSizeCheck"></Button>
+            android:text="@string/panel_spacing"
+            tools:ignore="TouchTargetSizeCheck,TextContrastCheck"></Button>
+
         <Button
             android:id="@+id/previewComicButton"
             style="?android:attr/buttonBarButtonStyle"
@@ -117,8 +122,8 @@
             android:autoSizeTextType="uniform"
             android:includeFontPadding="false"
             android:maxLines="2"
-            android:text="Preview Comic"
-            tools:ignore="TouchTargetSizeCheck"></Button>
+            android:text="@string/preview_comic"
+            tools:ignore="TouchTargetSizeCheck,TextContrastCheck"></Button>
     </GridLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

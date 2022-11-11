@@ -5,4 +5,13 @@
     <string name="continue_10_reading">Continue\nReading</string>
     <string name="custom_comic_editor">Custom Comic Editor</string>
     <string name="save_and_exit">Save and Exit</string>
+    <string name="user_logged_in">User Logged In</string>
+    <string name="coverart">coverArt</string>
+    <string name="fab">fab</string>
+    <string name="rearrange_panels">Rearrange Panels</string>
+    <string name="background_color">Background Color</string>
+    <string name="haptic_effects">Haptic Effects</string>
+    <string name="scroll_speed">Scroll Speed</string>
+    <string name="panel_spacing">Panel Spacing</string>
+    <string name="preview_comic">Preview Comic</string>
 </resources>

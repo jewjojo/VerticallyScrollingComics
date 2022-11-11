@@ -18,13 +18,14 @@
         <Button
             android:id="@+id/buttonBrowse"
             style="?android:attr/buttonBarButtonStyle"
-            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:includeFontPadding="false"
+            android:layout_weight="1"
             android:autoSizeTextType="uniform"
+            android:includeFontPadding="false"
             android:maxLines="1"
-            android:text="@string/browse" />
+            android:text="@string/browse"
+            tools:ignore="TextContrastCheck" />
 
         <Button
             android:id="@+id/buttonContinueReading"
@@ -36,7 +37,7 @@
             android:includeFontPadding="false"
             android:maxLines="2"
             android:text="@string/continue_10_reading"
-            tools:ignore="TouchTargetSizeCheck" />
+            tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
 
         <Button
             android:id="@+id/buttonCreate"
@@ -52,13 +53,14 @@
         <Button
             android:id="@+id/buttonAccount"
             style="?android:attr/buttonBarButtonStyle"
-            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:includeFontPadding="false"
+            android:layout_weight="1"
             android:autoSizeTextType="uniform"
+            android:includeFontPadding="false"
             android:maxLines="1"
-            android:text="@string/account" />
+            android:text="@string/account"
+            tools:ignore="TextContrastCheck" />
     </LinearLayout>
 
     <androidx.fragment.app.FragmentContainerView
