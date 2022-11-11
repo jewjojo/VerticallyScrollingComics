@@ -11,5 +11,11 @@ class EditComicActivity : AppCompatActivity() {
         val binding = EditComicActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
+
+        // save and exit
+        binding.buttonSaveAndExit.setOnClickListener {
+            // save work before exit
+            finish()
+        }
     }
 }
