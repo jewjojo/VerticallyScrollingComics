@@ -77,7 +77,7 @@ class BrowseFragment : Fragment() {
 
                 val comicAdapter = ReadableComicList(requireContext(), readableComics)
 
-                binding.listViewComics.adapter = comicAdapter
+                binding.gridView.adapter = comicAdapter
             }
 
             override fun onCancelled(error: DatabaseError) {
