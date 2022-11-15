@@ -84,6 +84,8 @@ class MainActivity : AppCompatActivity() {
             uidDir.mkdirs()
             return
         }
+
+        // Always load comics under UUID 0 (The guest UUID, used for when you aren't signed in)
         val newList: MutableList<LocalComicPreview> = mutableListOf()
 
         val directories = uidDir.listFiles { obj: File -> obj.isDirectory }

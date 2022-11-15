@@ -3,16 +3,20 @@ package com.umdproject.verticallyscrollingcomics.adapters
 
 import com.umdproject.verticallyscrollingcomics.R
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
+import androidx.fragment.app.FragmentActivity
+import com.umdproject.verticallyscrollingcomics.activities.EditComicActivity
 import com.umdproject.verticallyscrollingcomics.ui.fragments.LocalComicPreview
 
 
-class ComicAdapter(private val mContext: Context, comics: MutableList<LocalComicPreview>?) :
+class ComicAdapter(private val activity: FragmentActivity, private val mContext: Context, comics: MutableList<LocalComicPreview>?) :
     BaseAdapter() {
     var comics: MutableList<LocalComicPreview>?
 
@@ -45,10 +49,18 @@ class ComicAdapter(private val mContext: Context, comics: MutableList<LocalComic
         val nameTextView = convertView!!.findViewById<View>(R.id.textview_title) as TextView
         val authorTextView = convertView!!.findViewById<View>(R.id.textview_author) as TextView
 
+        var editIntent = Intent(activity, EditComicActivity::class.java)
+        editIntent.putExtra("filePath", comic.filePath)
+        convertView!!.findViewById<View>(R.id.buttonEdit).setOnClickListener {
+            startActivity(mContext, editIntent, null)
+        }
+
         imageView.setImageBitmap(comic.cover)
         nameTextView.text = comic.title
 
         authorTextView.text = comic.author
+
+
 
         return convertView
     }

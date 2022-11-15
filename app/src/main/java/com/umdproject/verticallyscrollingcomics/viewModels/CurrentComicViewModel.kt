@@ -1,5 +1,6 @@
 package com.umdproject.verticallyscrollingcomics.viewModels
 
+import android.graphics.Bitmap
 import android.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.LiveData
@@ -19,9 +20,17 @@ class CurrentComicViewModel : ViewModel() {
     internal val panelOrder: LiveData<MutableList<Int>>
         get() = _panelOrder
 
+    private val _panels = MutableLiveData<MutableList<Bitmap>>() // Hashmap of panels indexed by page number
+    internal val panels: LiveData<MutableList<Bitmap>>
+        get() = _panels
+
     private val _panelSpacing = MutableLiveData<Int>()
     internal val panelSpacing: LiveData<Int>
         get() = _panelSpacing
+
+    fun setPanels(newPanels: MutableList<Bitmap>) {
+        _panels.value = newPanels
+    }
 
     fun setBackgroundColor(newColor: Color) {
         _backgroundColor.value = newColor
@@ -40,7 +49,7 @@ class CurrentComicViewModel : ViewModel() {
     }
 
     init {
-        _backgroundColor.value = Color.valueOf(0xffffffff)
+        _backgroundColor.value = Color.valueOf(0F,0F,0F)
         _scrollSpeed.value = 0.5.toFloat()
         _panelOrder.value = mutableListOf()
         _panelSpacing.value = 1

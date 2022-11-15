@@ -47,7 +47,7 @@ class CreateFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         val gridView = view.findViewById(R.id.gridview) as GridView
-        val comicAdapter = ComicAdapter(mContext, viewModel.comicPreviews.value)
+        val comicAdapter = ComicAdapter(requireActivity(), mContext, viewModel.comicPreviews.value)
         gridView.adapter = comicAdapter
 
         viewModel.comicPreviews.observe(viewLifecycleOwner) {
