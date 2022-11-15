@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.umdproject.verticallyscrollingcomics.R
 import com.umdproject.verticallyscrollingcomics.Validators
 import com.umdproject.verticallyscrollingcomics.databinding.RegistrationFragmentBinding
+import com.umdproject.verticallyscrollingcomics.viewModels.MainViewModel
 
 class RegisterFragment : Fragment() {
     companion object {
@@ -21,6 +23,9 @@ class RegisterFragment : Fragment() {
 
     private lateinit var binding: RegistrationFragmentBinding
 
+    private lateinit var accountViewModel: MainViewModel
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -28,6 +33,7 @@ class RegisterFragment : Fragment() {
     ): View? {
 
         binding = RegistrationFragmentBinding.inflate(inflater, container, false)
+        accountViewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
         auth = requireNotNull(FirebaseAuth.getInstance())
 
@@ -77,6 +83,8 @@ class RegisterFragment : Fragment() {
                         getString(R.string.register_success_string),
                         Toast.LENGTH_LONG
                     ).show()
+
+                    accountViewModel.setEmail(email)
 
                     requireActivity().supportFragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainerView, AccountFragment.newInstance())

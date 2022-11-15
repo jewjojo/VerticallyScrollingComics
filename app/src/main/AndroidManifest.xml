@@ -33,6 +33,14 @@
         </activity>
 
         <activity
+            android:name=".activities.ReadComments"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name=".activities.EditComicActivity"
             android:exported="true">
             <intent-filter>

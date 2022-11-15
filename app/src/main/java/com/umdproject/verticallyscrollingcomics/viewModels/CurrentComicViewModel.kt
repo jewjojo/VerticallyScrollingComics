@@ -28,6 +28,10 @@ class CurrentComicViewModel : ViewModel() {
     internal val panelSpacing: LiveData<Int>
         get() = _panelSpacing
 
+    private val _commentsList = MutableLiveData<Int>()
+    internal val commentsList: LiveData<Int>
+        get() = _commentsList
+
     fun setPanels(newPanels: MutableList<Bitmap>) {
         _panels.value = newPanels
     }

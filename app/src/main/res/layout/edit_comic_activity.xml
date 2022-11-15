@@ -49,10 +49,9 @@
         android:background="@drawable/rectangle"
         android:rowCount="3"
         android:columnCount="2"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editorGridView">
+        app:layout_constraintBottom_toBottomOf="@+id/editorRecyclerView">
 
         <Button
             android:id="@+id/rearrangePanelsButton"

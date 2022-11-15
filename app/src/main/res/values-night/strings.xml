@@ -14,4 +14,8 @@
     <string name="scroll_speed">Scroll Speed</string>
     <string name="panel_spacing">Panel Spacing</string>
     <string name="preview_comic">Preview Comic</string>
+    <string name="replace_with_title">Replace With Title</string>
+    <string name="close">Close</string>
+    <string name="comment_here">Comment Here</string>
+    <string name="submit">Submit</string>
 </resources>

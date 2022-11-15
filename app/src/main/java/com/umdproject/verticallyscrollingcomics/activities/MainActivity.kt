@@ -76,6 +76,11 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, AccountActivity::class.java)
             startActivity(intent)
         }
+
+        // DELETE THIS
+        val intent2 = Intent(this, ReadComments::class.java)
+        //intent2.putExtra("commentsList", arrayOf<String>("1", "2", "3"))
+        startActivity(intent2)
     }
 
     public fun populateLocalComicPreviews() {

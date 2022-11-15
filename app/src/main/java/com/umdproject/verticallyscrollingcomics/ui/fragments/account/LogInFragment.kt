@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.umdproject.verticallyscrollingcomics.R
 import com.umdproject.verticallyscrollingcomics.databinding.LoginFragmentBinding
 import com.umdproject.verticallyscrollingcomics.databinding.LoginSignupFragmentBinding
+import com.umdproject.verticallyscrollingcomics.viewModels.MainViewModel
 
 class LogInFragment : Fragment() {
     companion object {
@@ -20,11 +22,13 @@ class LogInFragment : Fragment() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var binding: LoginFragmentBinding
+    private lateinit var accountViewModel: MainViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
 
         binding = LoginFragmentBinding.inflate(inflater, container, false)
+        accountViewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
         auth = requireNotNull(FirebaseAuth.getInstance())
 
@@ -78,6 +82,8 @@ class LogInFragment : Fragment() {
                         .replace(R.id.fragmentContainerView, AccountFragment.newInstance())
                         .commitNow()
 
+
+                    accountViewModel.setEmail(email)
                 } else {
                     Toast.makeText(
                         requireContext(),
