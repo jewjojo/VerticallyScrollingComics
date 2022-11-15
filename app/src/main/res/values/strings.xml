@@ -7,6 +7,7 @@
     <string name="prompt_email">Email</string>
     <string name="account_login_string">Account Login</string>
     <string name="email_hint_string">Email</string>
+    <string name="logged_in_as">Logged in as %1$s</string>
     <string name="password_hint_string">Password</string>
     <string name="register_new_account_string">Register new account</string>
     <string name="prompt_password">Password</string>
