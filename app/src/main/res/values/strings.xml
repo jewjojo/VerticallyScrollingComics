@@ -40,7 +40,7 @@
     <string name="user_logged_in">User Logged In</string>
     <string name="coverart">coverArt</string>
     <string name="fab">fab</string>
-    <string name="rearrange_panels">Rearrange Panels</string>
+    <string name="pick_image">Pick Image</string>
     <string name="background_color">Background Color</string>
     <string name="haptic_effects">Haptic Effects</string>
     <string name="scroll_speed">Scroll Speed</string>

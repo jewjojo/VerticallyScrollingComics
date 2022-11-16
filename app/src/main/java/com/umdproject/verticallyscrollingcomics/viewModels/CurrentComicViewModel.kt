@@ -28,9 +28,27 @@ class CurrentComicViewModel : ViewModel() {
     internal val panelSpacing: LiveData<Int>
         get() = _panelSpacing
 
+
     private val _commentsList = MutableLiveData<Int>()
     internal val commentsList: LiveData<Int>
         get() = _commentsList
+
+    private val _title = MutableLiveData<String>()
+    internal val title: LiveData<String>
+        get() = _title
+
+    private val _author = MutableLiveData<String>()
+    internal val author: LiveData<String>
+        get() = _author
+
+    fun setTitle(newTitle: String) {
+        _title.value = newTitle
+    }
+
+    fun setAuthor(newAuthor: String) {
+        _author.value = newAuthor
+    }
+
 
     fun setPanels(newPanels: MutableList<Bitmap>) {
         _panels.value = newPanels
@@ -57,5 +75,6 @@ class CurrentComicViewModel : ViewModel() {
         _scrollSpeed.value = 0.5.toFloat()
         _panelOrder.value = mutableListOf()
         _panelSpacing.value = 1
+        _panels.value = mutableListOf()
     }
 }

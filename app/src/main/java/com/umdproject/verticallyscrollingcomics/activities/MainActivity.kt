@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
         */
     }
 
-    public fun populateLocalComicPreviews() {
+    private fun populateLocalComicPreviews() {
         val uidDir = File(this.filesDir, "/comics/" + viewModel.uid.value.toString())
         if (!uidDir.exists()) {
             uidDir.mkdirs()
@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity() {
             val currDir = it.toString()
 
 
-            val titleImg = BitmapFactory.decodeFile(currDir + "/title.png")
+            val titleImg = BitmapFactory.decodeFile(currDir + "/1.png")
 
             val fileInputStream = FileInputStream(currDir + "/metadata.json")
             val jsonReader = JsonReader(InputStreamReader(fileInputStream, "UTF-8"))

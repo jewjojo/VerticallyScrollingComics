@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/editorRecyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -40,28 +41,36 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/editorRecyclerView"
+        android:layout_width="374dp"
+        android:layout_height="434dp"
         android:scrollbars="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topBar" />
+
     <GridLayout
+        android:id="@+id/gridLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/rectangle"
-        android:rowCount="3"
         android:columnCount="2"
+        android:rowCount="3"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/editorRecyclerView">
+        app:layout_constraintTop_toBottomOf="@+id/editorRecyclerView">
+
 
         <Button
-            android:id="@+id/rearrangePanelsButton"
+            android:id="@+id/pickImageButton"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:autoSizeTextType="uniform"
             android:includeFontPadding="false"
             android:maxLines="2"
-            android:text="@string/rearrange_panels"
+            android:text="@string/pick_image"
             tools:ignore="TouchTargetSizeCheck,TextContrastCheck"></Button>
 
         <Button

@@ -14,7 +14,7 @@ import com.umdproject.verticallyscrollingcomics.R
 internal class EditorPanelAdapter(context: Context, panels: MutableList<Bitmap>) :
     RecyclerView.Adapter<EditorPanelAdapter.ViewHolder?>() {
 
-    private val mPanels: MutableList<Bitmap>
+    var mPanels: MutableList<Bitmap>
     private val mContext: Context
 
     init {
