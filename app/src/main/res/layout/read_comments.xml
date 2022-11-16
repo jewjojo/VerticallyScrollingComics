@@ -39,11 +39,10 @@
     </LinearLayout>
 
 
-    <androidx.recyclerview.widget.RecyclerView
+    <TextView
         android:id="@+id/readCommentsList"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topBar"
         />
@@ -60,24 +59,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/readCommentsList">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/comment_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/comment_here"
-            android:textColorHint="@color/white" />
-
-        <com.google.android.material.textfield.TextInputEditText
+        <EditText
             android:id="@+id/comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:background="@color/dark_gray"
-            android:imeOptions="actionDone"
-            android:inputType="text"
+            android:hint="@string/comment_here"
+            android:textColorHint="@color/design_default_color_on_primary"
+            android:importantForAutofill="no"
+            android:inputType="textEmailAddress"
             android:minHeight="48dp"
-            android:selectAllOnFocus="true"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="TextContrastCheck" />
+
         <Button
             android:id="@+id/leaveComment"
             style="?android:attr/buttonBarButtonStyle"

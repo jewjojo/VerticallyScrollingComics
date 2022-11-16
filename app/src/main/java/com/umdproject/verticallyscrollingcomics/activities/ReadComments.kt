@@ -1,32 +1,23 @@
 package com.umdproject.verticallyscrollingcomics.activities
 
-import android.graphics.Bitmap
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
-import android.view.View
-import android.widget.GridView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.umdproject.verticallyscrollingcomics.R
-import com.umdproject.verticallyscrollingcomics.adapters.CommentAdapter
-import com.umdproject.verticallyscrollingcomics.adapters.EditorPanelAdapter
-import com.umdproject.verticallyscrollingcomics.databinding.EditComicActivityBinding
 import com.umdproject.verticallyscrollingcomics.databinding.ReadCommentsBinding
-import com.umdproject.verticallyscrollingcomics.viewModels.CurrentComicViewModel
 import com.umdproject.verticallyscrollingcomics.viewModels.MainViewModel
-import java.util.*
-import kotlin.collections.ArrayList
 
 // check GraphicsPaint in class repo to paint toolbar
 class ReadComments : AppCompatActivity() {
     private var commentList = arrayListOf<String>()
-    private lateinit var comicViewModel: CurrentComicViewModel
+    //private lateinit var comicViewModel: CurrentComicViewModel
     private lateinit var accountViewModel: MainViewModel
-    private lateinit var commentView: RecyclerView
+    private lateinit var commentDisplay: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,18 +25,24 @@ class ReadComments : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
-        comicViewModel = ViewModelProvider(this)[CurrentComicViewModel::class.java]
+        //comicViewModel = ViewModelProvider(this)[CurrentComicViewModel::class.java]
         accountViewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        commentDisplay = binding.readCommentsList
 
-        commentView = findViewById(R.id.readCommentsList)
+        // set comic title from intent
+        binding.editorTitleText.text = "FILL IN COMIC TITLE"
 
         // fill in list of strings
         if (intent.hasExtra("commentsList")) {
             commentList = intent.getStringArrayListExtra("commentsList")!!
-
-            // populate screen with comments
             populateScreen()
         }
+
+        // initial test population of comments
+        commentList.add("test1")
+        commentList.add("test2")
+        commentDisplay.text = commentList.joinToString(separator = "\n")
+
 
         // exit the comments page
         binding.buttonSaveAndExit.setOnClickListener {
@@ -53,19 +50,31 @@ class ReadComments : AppCompatActivity() {
         }
 
         binding.leaveComment.setOnClickListener {
-            leaveComment(binding.comment.toString())
+            val yourComment: String = binding.comment.text.toString()
+
+            if (accountViewModel.email.value.isNullOrBlank()) {
+                Toast.makeText(
+                    this,
+                    getString(R.string.sign_in_toast),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+
+            if (!TextUtils.isEmpty(yourComment)) {
+                leaveComment(yourComment)
+            }
+
         }
     }
 
     private fun populateScreen() {
-        val adapter = CommentAdapter(this, commentList)
-        commentView.layoutManager = LinearLayoutManager(this)
-        commentView.adapter = adapter
+        commentDisplay.text = commentList.joinToString(separator = "\n")
     }
 
     private fun leaveComment(yourComment: String) {
         // add account name: comment to list and update on firebase
-        commentList.add(accountViewModel.email.toString() + " " + yourComment)
+        Log.i("Comment", "yourComment: $yourComment")
+        commentList.add(accountViewModel.email.value + ": " + yourComment)
         populateScreen()
     }
 }
