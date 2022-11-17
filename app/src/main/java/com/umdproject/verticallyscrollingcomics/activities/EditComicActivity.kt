@@ -15,12 +15,15 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.umdproject.verticallyscrollingcomics.R
 import com.umdproject.verticallyscrollingcomics.adapters.EditorPanelAdapter
+import com.umdproject.verticallyscrollingcomics.dataClasses.ComicPanel
 import com.umdproject.verticallyscrollingcomics.databinding.EditComicActivityBinding
 import com.umdproject.verticallyscrollingcomics.viewModels.CurrentComicViewModel
 import java.io.File
 import java.io.FileInputStream
 import java.io.InputStreamReader
 import java.util.*
+import android.app.AlertDialog
+import android.content.DialogInterface
 
 
 // check GraphicsPaint in class repo to paint toolbar
@@ -67,12 +70,12 @@ class EditComicActivity : AppCompatActivity() {
         )
 
 
-        epAdapter = EditorPanelAdapter(this, viewModel.panels.value!!)
+        epAdapter = EditorPanelAdapter(this, viewModel.panels, viewModel)
         mRecyclerView.adapter = epAdapter
 
         viewModel.panels.observe(this) {
             Log.d("PICK_IMAGE", "LiveData changed, panel size is now " + it.size)
-            epAdapter.mPanels = it
+            //epAdapter.mPanels = it
             epAdapter.notifyItemInserted(it.size)
         }
 
@@ -104,6 +107,7 @@ class EditComicActivity : AppCompatActivity() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 TODO("Not yet implemented")
             }
+
         })
 
         // Attach the helper to the RecyclerView.
@@ -154,9 +158,9 @@ class EditComicActivity : AppCompatActivity() {
             }
         }
         val sortedList = newList.sortedWith(compareBy({it.first}))
-        var finalMutableList: MutableList<Bitmap> = mutableListOf()
+        var finalMutableList: MutableList<ComicPanel> = mutableListOf()
         for (item in sortedList) {
-            finalMutableList.add(item.second)
+            finalMutableList.add(ComicPanel(item.second))
         }
         viewModel.setPanels(finalMutableList)
     }
@@ -168,7 +172,7 @@ class EditComicActivity : AppCompatActivity() {
             val bitmap: Bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, imageURI)
             Log.d("PICK_IMAGE", viewModel.panels.value?.size.toString())
             var oldList = viewModel.panels.value!!
-            oldList.add(bitmap)
+            oldList.add(ComicPanel(bitmap))
             viewModel.setPanels(oldList)
             Log.d("PICK_IMAGE", viewModel.panels.value?.size.toString())
         }

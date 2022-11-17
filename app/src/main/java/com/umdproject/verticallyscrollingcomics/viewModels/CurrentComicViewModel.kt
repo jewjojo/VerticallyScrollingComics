@@ -5,6 +5,7 @@ import android.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.umdproject.verticallyscrollingcomics.dataClasses.ComicPanel
 
 // This ViewModel holds the data for the comic currently being read
 class CurrentComicViewModel : ViewModel() {
@@ -20,8 +21,8 @@ class CurrentComicViewModel : ViewModel() {
     internal val panelOrder: LiveData<MutableList<Int>>
         get() = _panelOrder
 
-    private val _panels = MutableLiveData<MutableList<Bitmap>>() // Hashmap of panels indexed by page number
-    internal val panels: LiveData<MutableList<Bitmap>>
+    private val _panels = MutableLiveData<MutableList<ComicPanel>>() // Hashmap of panels indexed by page number
+    internal val panels: LiveData<MutableList<ComicPanel>>
         get() = _panels
 
     private val _panelSpacing = MutableLiveData<Int>()
@@ -50,8 +51,12 @@ class CurrentComicViewModel : ViewModel() {
     }
 
 
-    fun setPanels(newPanels: MutableList<Bitmap>) {
+    fun setPanels(newPanels: MutableList<ComicPanel>) {
         _panels.value = newPanels
+    }
+
+    fun setHapticsPrefs(pos: Int, pref: Boolean) {
+        _panels.value!![pos].hasHaptics = pref
     }
 
     fun setBackgroundColor(newColor: Color) {

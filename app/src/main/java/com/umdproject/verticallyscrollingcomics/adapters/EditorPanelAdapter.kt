@@ -1,23 +1,28 @@
 package com.umdproject.verticallyscrollingcomics.adapters
 
+import android.app.AlertDialog
 import android.content.Context
-import android.content.Intent
-import android.graphics.Bitmap
+import android.content.DialogInterface
+import android.content.DialogInterface.OnMultiChoiceClickListener
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.umdproject.verticallyscrollingcomics.R
+import com.umdproject.verticallyscrollingcomics.dataClasses.ComicPanel
+import com.umdproject.verticallyscrollingcomics.viewModels.CurrentComicViewModel
 
-internal class EditorPanelAdapter(context: Context, panels: MutableList<Bitmap>) :
+internal class EditorPanelAdapter(context: Context, panels: LiveData<MutableList<ComicPanel>>, viewModelIn: CurrentComicViewModel) :
     RecyclerView.Adapter<EditorPanelAdapter.ViewHolder?>() {
 
-    var mPanels: MutableList<Bitmap>
+    var viewModel: CurrentComicViewModel
+    var mPanels: LiveData<MutableList<ComicPanel>>
     private val mContext: Context
 
     init {
+        viewModel = viewModelIn
         mPanels = panels
         mContext = context
     }
@@ -33,14 +38,13 @@ internal class EditorPanelAdapter(context: Context, panels: MutableList<Bitmap>)
         holder: ViewHolder,
         position: Int
     ) {
-        val currentPanel: Bitmap = mPanels[position]
-
+        val currentPanel: ComicPanel = mPanels.value!![position]
         holder.bindTo(currentPanel)
     }
 
 
     override fun getItemCount(): Int {
-        return mPanels.size
+        return mPanels.value!!.size
     }
 
     internal inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
@@ -48,21 +52,33 @@ internal class EditorPanelAdapter(context: Context, panels: MutableList<Bitmap>)
 
         private val mPanel: ImageView
         init {
-
-
             mPanel = itemView.findViewById(R.id.panel_image)
-
-
             itemView.setOnClickListener(this)
         }
 
-        fun bindTo(currentPanel: Bitmap) {
+        fun bindTo(currentPanel: ComicPanel) {
             //mPanel.setImageBitmap(Bitmap.createBitmap(500,500, Bitmap.Config.RGB_565))
-            mPanel.setImageBitmap(mPanels[adapterPosition])
+            mPanel.setImageBitmap(mPanels.value!![adapterPosition].image)
         }
 
         override fun onClick(view: View) {
+            val dialogBuilder = AlertDialog.Builder(mContext)
+                dialogBuilder.setPositiveButton("Exit", DialogInterface.OnClickListener {
+                        dialog, id -> dialog.cancel()
+                })
 
+            var one = arrayOf("Haptics")
+            var two = booleanArrayOf(mPanels.value!![adapterPosition].hasHaptics)
+
+            dialogBuilder.setMultiChoiceItems(one, two) { dialog, which, isChecked ->
+                viewModel.setHapticsPrefs(which, isChecked)
+            }
+
+            val alert = dialogBuilder.create()
+
+            alert.setTitle("Panel Settings")
+
+            alert.show()
         }
     }
 
@@ -70,3 +86,7 @@ internal class EditorPanelAdapter(context: Context, panels: MutableList<Bitmap>)
 
 
 }
+
+
+
+
