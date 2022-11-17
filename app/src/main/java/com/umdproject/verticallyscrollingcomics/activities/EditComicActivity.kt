@@ -70,7 +70,7 @@ class EditComicActivity : AppCompatActivity() {
         )
 
 
-        epAdapter = EditorPanelAdapter(this, viewModel.panels, viewModel)
+        epAdapter = EditorPanelAdapter(this, viewModel)
         mRecyclerView.adapter = epAdapter
 
         viewModel.panels.observe(this) {
@@ -97,7 +97,6 @@ class EditComicActivity : AppCompatActivity() {
                 val to = target.adapterPosition
 
                 // Swap the items and notify the adapter.
-                Collections.swap(viewModel.panels.value!!, from, to)
                 viewModel.panels.value!![from] = viewModel.panels.value!![to].also { viewModel.panels.value!![to] = viewModel.panels.value!![from] }
                 //Log.d("VSC_SWAP_PANELS", to.toString() + " to " + from.toString())
                 epAdapter.notifyItemMoved(from, to)

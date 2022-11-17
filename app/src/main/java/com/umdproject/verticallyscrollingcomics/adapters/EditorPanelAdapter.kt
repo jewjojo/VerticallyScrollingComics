@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.DialogInterface.OnMultiChoiceClickListener
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,16 +15,14 @@ import com.umdproject.verticallyscrollingcomics.R
 import com.umdproject.verticallyscrollingcomics.dataClasses.ComicPanel
 import com.umdproject.verticallyscrollingcomics.viewModels.CurrentComicViewModel
 
-internal class EditorPanelAdapter(context: Context, panels: LiveData<MutableList<ComicPanel>>, viewModelIn: CurrentComicViewModel) :
+internal class EditorPanelAdapter(context: Context, viewModelIn: CurrentComicViewModel) :
     RecyclerView.Adapter<EditorPanelAdapter.ViewHolder?>() {
 
     var viewModel: CurrentComicViewModel
-    var mPanels: LiveData<MutableList<ComicPanel>>
     private val mContext: Context
 
     init {
         viewModel = viewModelIn
-        mPanels = panels
         mContext = context
     }
 
@@ -38,13 +37,13 @@ internal class EditorPanelAdapter(context: Context, panels: LiveData<MutableList
         holder: ViewHolder,
         position: Int
     ) {
-        val currentPanel: ComicPanel = mPanels.value!![position]
+        val currentPanel: ComicPanel = viewModel.panels.value!![position]
         holder.bindTo(currentPanel)
     }
 
 
     override fun getItemCount(): Int {
-        return mPanels.value!!.size
+        return viewModel.panels.value!!.size
     }
 
     internal inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
@@ -58,21 +57,40 @@ internal class EditorPanelAdapter(context: Context, panels: LiveData<MutableList
 
         fun bindTo(currentPanel: ComicPanel) {
             //mPanel.setImageBitmap(Bitmap.createBitmap(500,500, Bitmap.Config.RGB_565))
-            mPanel.setImageBitmap(mPanels.value!![adapterPosition].image)
+            mPanel.setImageBitmap(viewModel.panels.value!![adapterPosition].image)
         }
 
         override fun onClick(view: View) {
+
             val dialogBuilder = AlertDialog.Builder(mContext)
                 dialogBuilder.setPositiveButton("Exit", DialogInterface.OnClickListener {
                         dialog, id -> dialog.cancel()
                 })
 
+            var hasHapticsListDebug = mutableListOf<Boolean>()
+
+            for (panel in viewModel.panels.value!!) {
+                hasHapticsListDebug.add(panel.hasHaptics)
+            }
+
+            Log.d("EPA", "Before: " + hasHapticsListDebug.toString())
+
             var one = arrayOf("Haptics")
-            var two = booleanArrayOf(mPanels.value!![adapterPosition].hasHaptics)
+            var two = booleanArrayOf(viewModel.panels.value!![adapterPosition].hasHaptics)
 
             dialogBuilder.setMultiChoiceItems(one, two) { dialog, which, isChecked ->
-                viewModel.setHapticsPrefs(which, isChecked)
+                viewModel.setHapticsPrefs(adapterPosition, isChecked)
+                var hasHapticsListDebug2 = mutableListOf<Boolean>()
+
+                for (panel in viewModel.panels.value!!) {
+                    hasHapticsListDebug2.add(panel.hasHaptics)
+                }
+                Log.d("EPA","After: " + hasHapticsListDebug2.toString())
             }
+
+
+
+
 
             val alert = dialogBuilder.create()
 
