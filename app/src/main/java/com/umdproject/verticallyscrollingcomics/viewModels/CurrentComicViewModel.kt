@@ -25,7 +25,7 @@ class CurrentComicViewModel : ViewModel() {
     internal val panels: LiveData<MutableList<ComicPanel>>
         get() = _panels
 
-    private val _panelSpacing = MutableLiveData<Int>()
+    private val _panelSpacing = MutableLiveData<Int>() // 1 to 100
     internal val panelSpacing: LiveData<Int>
         get() = _panelSpacing
 
@@ -81,5 +81,7 @@ class CurrentComicViewModel : ViewModel() {
         _panelOrder.value = mutableListOf()
         _panelSpacing.value = 1
         _panels.value = mutableListOf()
+        _title.value = ""
+        _author.value = ""
     }
 }

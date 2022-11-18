@@ -85,15 +85,16 @@
             tools:ignore="TouchTargetSizeCheck,TextContrastCheck"></Button>
 
         <Button
-            android:id="@+id/hapticEffectsButton"
+            android:id="@+id/metadata"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:autoSizeTextType="uniform"
             android:includeFontPadding="false"
             android:maxLines="2"
-            android:text="@string/haptic_effects"
+            android:text="@string/metadata"
             tools:ignore="TouchTargetSizeCheck,TextContrastCheck"></Button>
+
 
         <Button
             android:id="@+id/scrollSpeedButton"

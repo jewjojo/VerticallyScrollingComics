@@ -1,6 +1,8 @@
 package com.umdproject.verticallyscrollingcomics.activities
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -8,6 +10,11 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.JsonReader
 import android.util.Log
+import android.widget.EditText
+import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -21,9 +28,6 @@ import com.umdproject.verticallyscrollingcomics.viewModels.CurrentComicViewModel
 import java.io.File
 import java.io.FileInputStream
 import java.io.InputStreamReader
-import java.util.*
-import android.app.AlertDialog
-import android.content.DialogInterface
 
 
 // check GraphicsPaint in class repo to paint toolbar
@@ -50,6 +54,90 @@ class EditComicActivity : AppCompatActivity() {
             intent.type = "image/*"
             startActivityForResult(intent, 1)
         }
+
+        binding.panelSpacingButton.setOnClickListener() {
+            val dialogBuilder = AlertDialog.Builder(this)
+            val seekBar = SeekBar(this)
+            seekBar.max = 100
+            seekBar.progress = viewModel.panelSpacing.value!!
+            dialogBuilder.setPositiveButton("Exit", DialogInterface.OnClickListener {
+                    dialog, id -> dialog.cancel()
+            })
+            dialogBuilder.setTitle("Set Panel Spacing Height")
+            dialogBuilder.setView(seekBar)
+            seekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+                override fun onProgressChanged(
+                    seekBar: SeekBar, progress: Int,
+                    fromUser: Boolean
+                ) {
+                    viewModel.newPanelSpacing(progress)
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar) {
+
+                }
+
+                override fun onStopTrackingTouch(seekBar: SeekBar) {
+
+                }
+            })
+
+            val spacingDialog = dialogBuilder.create()
+            spacingDialog.show()
+        }
+
+        binding.scrollSpeedButton.setOnClickListener() {
+            val dialogBuilder = AlertDialog.Builder(this)
+            val seekBar = SeekBar(this)
+            seekBar.max = 100
+            seekBar.progress = (viewModel.scrollSpeed.value!!*100).toInt()
+            dialogBuilder.setPositiveButton("Exit", DialogInterface.OnClickListener {
+                    dialog, id -> dialog.cancel()
+            })
+            dialogBuilder.setTitle("Set Scroll Speed")
+            dialogBuilder.setView(seekBar)
+            seekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+                override fun onProgressChanged(
+                    seekBar: SeekBar, progress: Int,
+                    fromUser: Boolean
+                ) {
+                    viewModel.setScrollSpeed((progress / 100).toFloat())
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar) {
+
+                }
+
+                override fun onStopTrackingTouch(seekBar: SeekBar) {
+
+                }
+            })
+
+            val speedDialog = dialogBuilder.create()
+            speedDialog.show()
+        }
+
+        binding.metadata.setOnClickListener() {
+            val dialogBuilder = AlertDialog.Builder(this)
+            dialogBuilder.setCancelable(false)
+            val metadataDialogLayout = layoutInflater.inflate(R.layout.save_comic_dialog, null)
+            metadataDialogLayout.findViewById<EditText>(R.id.comic_author).setText(viewModel.author.value!!, TextView.BufferType.EDITABLE)
+            metadataDialogLayout.findViewById<EditText>(R.id.comic_title).setText(viewModel.title.value!!, TextView.BufferType.EDITABLE)
+            dialogBuilder.setView(metadataDialogLayout)
+            dialogBuilder.setPositiveButton("Exit", DialogInterface.OnClickListener {
+                    dialog, id ->
+                viewModel.setAuthor(metadataDialogLayout.findViewById<EditText>(R.id.comic_author).text.toString())
+                viewModel.setTitle(metadataDialogLayout.findViewById<EditText>(R.id.comic_title).text.toString())
+                dialog.cancel()
+            })
+
+            val metaDialog = dialogBuilder.create()
+            metaDialog.show()
+        }
+
+
+
+
 
 
         mRecyclerView = findViewById(R.id.editorRecyclerView)
@@ -162,6 +250,10 @@ class EditComicActivity : AppCompatActivity() {
             finalMutableList.add(ComicPanel(item.second))
         }
         viewModel.setPanels(finalMutableList)
+    }
+
+    fun showPanelSpacingDialog() {
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

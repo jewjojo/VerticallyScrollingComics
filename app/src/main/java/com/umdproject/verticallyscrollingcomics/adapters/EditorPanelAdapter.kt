@@ -73,7 +73,7 @@ internal class EditorPanelAdapter(context: Context, viewModelIn: CurrentComicVie
                 hasHapticsListDebug.add(panel.hasHaptics)
             }
 
-            Log.d("EPA", "Before: " + hasHapticsListDebug.toString())
+            //Log.d("EPA", "Before: " + hasHapticsListDebug.toString())
 
             var one = arrayOf("Haptics")
             var two = booleanArrayOf(viewModel.panels.value!![adapterPosition].hasHaptics)
@@ -85,12 +85,8 @@ internal class EditorPanelAdapter(context: Context, viewModelIn: CurrentComicVie
                 for (panel in viewModel.panels.value!!) {
                     hasHapticsListDebug2.add(panel.hasHaptics)
                 }
-                Log.d("EPA","After: " + hasHapticsListDebug2.toString())
+                //Log.d("EPA","After: " + hasHapticsListDebug2.toString())
             }
-
-
-
-
 
             val alert = dialogBuilder.create()
 
