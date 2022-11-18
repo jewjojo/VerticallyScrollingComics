@@ -6,10 +6,12 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.JsonReader
 import android.util.Log
+import android.view.View
 import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
@@ -133,6 +135,61 @@ class EditComicActivity : AppCompatActivity() {
 
             val metaDialog = dialogBuilder.create()
             metaDialog.show()
+        }
+
+        binding.backgroundColorButton.setOnClickListener() {
+            val dialogBuilder = AlertDialog.Builder(this)
+            dialogBuilder.setCancelable(false)
+            val colorDialogLayout = layoutInflater.inflate(R.layout.color_picker, null)
+            colorDialogLayout.findViewById<SeekBar>(R.id.blue_bar).progress = viewModel.backgroundColor.value!!.blue().toInt()
+            colorDialogLayout.findViewById<SeekBar>(R.id.red_bar).progress = viewModel.backgroundColor.value!!.red().toInt()
+            colorDialogLayout.findViewById<SeekBar>(R.id.green_bar).progress = viewModel.backgroundColor.value!!.green().toInt()
+            colorDialogLayout.findViewById<View>(R.id.color_view).setBackgroundColor(Color.rgb(viewModel.backgroundColor.value!!.red().toInt(), viewModel.backgroundColor.value!!.green().toInt(), viewModel.backgroundColor.value!!.blue().toInt()))
+            dialogBuilder.setView(colorDialogLayout)
+            colorDialogLayout.findViewById<SeekBar>(R.id.blue_bar).setOnSeekBarChangeListener(
+                object : SeekBar.OnSeekBarChangeListener {
+                    override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                        colorDialogLayout.findViewById<View>(R.id.color_view).setBackgroundColor(Color.rgb(colorDialogLayout.findViewById<SeekBar>(R.id.red_bar).progress, colorDialogLayout.findViewById<SeekBar>(R.id.green_bar).progress, colorDialogLayout.findViewById<SeekBar>(R.id.blue_bar).progress))
+                    }
+                    //Not Implemented
+                    override fun onStartTrackingTouch(p0: SeekBar?) {}
+                    override fun onStopTrackingTouch(p0: SeekBar?) {}
+                })
+            colorDialogLayout.findViewById<SeekBar>(R.id.green_bar).setOnSeekBarChangeListener(
+                object : SeekBar.OnSeekBarChangeListener {
+                    override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                        colorDialogLayout.findViewById<View>(R.id.color_view).setBackgroundColor(Color.rgb(colorDialogLayout.findViewById<SeekBar>(R.id.red_bar).progress, colorDialogLayout.findViewById<SeekBar>(R.id.green_bar).progress, colorDialogLayout.findViewById<SeekBar>(R.id.blue_bar).progress))
+                    }
+                    //Not Implemented
+                    override fun onStartTrackingTouch(p0: SeekBar?) {}
+                    override fun onStopTrackingTouch(p0: SeekBar?) {}
+                })
+
+            colorDialogLayout.findViewById<SeekBar>(R.id.red_bar).setOnSeekBarChangeListener(
+                object : SeekBar.OnSeekBarChangeListener {
+                    override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+                        colorDialogLayout.findViewById<View>(R.id.color_view).setBackgroundColor(Color.rgb(colorDialogLayout.findViewById<SeekBar>(R.id.red_bar).progress, colorDialogLayout.findViewById<SeekBar>(R.id.green_bar).progress, colorDialogLayout.findViewById<SeekBar>(R.id.blue_bar).progress))
+                    }
+                    //Not Implemented
+                    override fun onStartTrackingTouch(p0: SeekBar?) {}
+                    override fun onStopTrackingTouch(p0: SeekBar?) {}
+                })
+
+
+
+
+
+
+
+            dialogBuilder.setPositiveButton("Exit", DialogInterface.OnClickListener {
+                    dialog, id ->
+                viewModel.setBackgroundColor(Color.valueOf(colorDialogLayout.findViewById<SeekBar>(R.id.red_bar).progress.toFloat(), colorDialogLayout.findViewById<SeekBar>(R.id.green_bar).progress.toFloat(), colorDialogLayout.findViewById<SeekBar>(R.id.blue_bar).progress.toFloat()))
+
+                dialog.cancel()
+            })
+
+            val colorDialog = dialogBuilder.create()
+            colorDialog.show()
         }
 
 
