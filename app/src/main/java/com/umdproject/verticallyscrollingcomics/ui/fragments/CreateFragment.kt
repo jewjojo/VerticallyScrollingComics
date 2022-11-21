@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,16 +48,19 @@ class CreateFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(requireActivity())[MainViewModel::class.java]
         val gridView = view.findViewById(R.id.gridview) as GridView
-        val comicAdapter = ComicAdapter(requireActivity(), mContext, viewModel.comicPreviews.value)
+        val comicAdapter = ComicAdapter(requireActivity(), mContext, viewModel.comicPreviews.value, viewModel.uid.value!!)
         gridView.adapter = comicAdapter
 
         viewModel.comicPreviews.observe(viewLifecycleOwner) {
+            Log.d("VSC_CF", "CF observed comicPreviews update")
             comicAdapter.comics = it
         }
 
         val createButton = view.findViewById(R.id.fab) as FloatingActionButton
         createButton.setOnClickListener {
-            startActivity(Intent(activity, EditComicActivity::class.java))
+            val createFromScratchIntent = Intent(activity, EditComicActivity::class.java)
+            createFromScratchIntent.putExtra("uid", viewModel.uid.value)
+            startActivity(createFromScratchIntent)
         }
     }
 

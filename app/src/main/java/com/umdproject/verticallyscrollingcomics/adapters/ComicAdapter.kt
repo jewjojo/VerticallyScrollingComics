@@ -16,12 +16,14 @@ import com.umdproject.verticallyscrollingcomics.activities.EditComicActivity
 import com.umdproject.verticallyscrollingcomics.ui.fragments.LocalComicPreview
 
 
-class ComicAdapter(private val activity: FragmentActivity, private val mContext: Context, comics: MutableList<LocalComicPreview>?) :
+class ComicAdapter(private val activity: FragmentActivity, private val mContext: Context, comics: MutableList<LocalComicPreview>?, uid: Int) :
     BaseAdapter() {
     var comics: MutableList<LocalComicPreview>?
+    var uid = uid
 
     init {
         this.comics = comics
+        this.uid = uid
     }
 
     override fun getCount(): Int {
@@ -51,6 +53,7 @@ class ComicAdapter(private val activity: FragmentActivity, private val mContext:
 
         var editIntent = Intent(activity, EditComicActivity::class.java)
         editIntent.putExtra("filePath", comic.filePath)
+        editIntent.putExtra("uid", uid)
         convertView!!.findViewById<View>(R.id.buttonEdit).setOnClickListener {
             startActivity(mContext, editIntent, null)
         }

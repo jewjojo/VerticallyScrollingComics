@@ -10,6 +10,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.JsonReader
+import android.util.JsonWriter
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -30,14 +31,20 @@ import com.umdproject.verticallyscrollingcomics.viewModels.CurrentComicViewModel
 import java.io.File
 import java.io.FileInputStream
 import java.io.InputStreamReader
+import java.io.OutputStreamWriter
+import java.util.*
+import kotlin.properties.Delegates
+import kotlin.random.Random.Default.nextInt
 
 
 // check GraphicsPaint in class repo to paint toolbar
 class EditComicActivity : AppCompatActivity() {
     private lateinit var viewModel: CurrentComicViewModel
     private lateinit var filePath: String
+    private var uid by Delegates.notNull<Int>()
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var epAdapter: EditorPanelAdapter
+    private var isExisting by Delegates.notNull<Boolean>()
 
     private val testPanels: MutableList<Bitmap> = mutableListOf(Bitmap.createBitmap(500,500, Bitmap.Config.RGB_565), Bitmap.createBitmap(500,500, Bitmap.Config.RGB_565), Bitmap.createBitmap(500,500, Bitmap.Config.RGB_565),
         Bitmap.createBitmap(500,500, Bitmap.Config.ALPHA_8), Bitmap.createBitmap(500,500, Bitmap.Config.RGB_565), Bitmap.createBitmap(500,500, Bitmap.Config.RGB_565),
@@ -103,7 +110,8 @@ class EditComicActivity : AppCompatActivity() {
                     seekBar: SeekBar, progress: Int,
                     fromUser: Boolean
                 ) {
-                    viewModel.setScrollSpeed((progress / 100).toFloat())
+
+                    viewModel.setScrollSpeed((progress.toFloat() / 100))
                 }
 
                 override fun onStartTrackingTouch(seekBar: SeekBar) {
@@ -176,11 +184,6 @@ class EditComicActivity : AppCompatActivity() {
                 })
 
 
-
-
-
-
-
             dialogBuilder.setPositiveButton("Exit", DialogInterface.OnClickListener {
                     dialog, id ->
                 viewModel.setBackgroundColor(Color.valueOf(colorDialogLayout.findViewById<SeekBar>(R.id.red_bar).progress.toFloat(), colorDialogLayout.findViewById<SeekBar>(R.id.green_bar).progress.toFloat(), colorDialogLayout.findViewById<SeekBar>(R.id.blue_bar).progress.toFloat()))
@@ -195,20 +198,67 @@ class EditComicActivity : AppCompatActivity() {
 
 
 
-
-
         mRecyclerView = findViewById(R.id.editorRecyclerView)
+
+        if (intent.hasExtra("uid")) {
+            uid = intent.getIntExtra("uid", 0)
+        }
 
         if (intent.hasExtra("filePath")) {
             filePath = intent.getStringExtra("filePath")!!
+            isExisting = true
             populateExistingData()
+        } else {
+            isExisting = false
         }
 
-        // save and exit
-        binding.buttonSaveAndExit.setOnClickListener {
-            // save work before exit
+        binding.buttonSaveAndExit.setOnClickListener() {
+            var comDir: String
+
+            if (isExisting) {
+                comDir = filePath
+            } else {
+                comDir = this.filesDir.toString() + "/comics/" + uid.toString() + "/" + uid.toString() + "_" + String.format("%09d", nextInt(1000000000))
+                File(comDir).mkdirs()
+            }
+
+
+
+            viewModel.panels.value!!.forEachIndexed { i, panel ->
+                val panelFile = File(comDir + "/" + (i + 1).toString() + ".png")
+                panelFile.createNewFile()
+                val panelOut = panelFile.outputStream()
+                var panelImg = Bitmap.createScaledBitmap(panel.image, 600, 1000, true)
+                val completed = panelImg.compress(Bitmap.CompressFormat.PNG, 100, panelOut)
+                Log.d("VSC_SAVE", completed.toString())
+                panelOut.flush()
+                panelOut.close()
+            }
+
+            val jsonMetadataStream = File(comDir + "/" + "metadata.json").outputStream()
+            val jsonWriter = JsonWriter(OutputStreamWriter(jsonMetadataStream))
+            jsonWriter.setIndent("  ")
+
+
+            // Writing JSON
+
+            jsonWriter.beginObject()
+            jsonWriter.name("author").value(viewModel.author.value!!)
+            jsonWriter.name("title").value(viewModel.title.value!!)
+            jsonWriter.name("bgRed").value(viewModel.backgroundColor.value!!.red())
+            jsonWriter.name("bgGreen").value(viewModel.backgroundColor.value!!.green())
+            jsonWriter.name("bgBlue").value(viewModel.backgroundColor.value!!.blue())
+            jsonWriter.name("scrollSpeed").value(viewModel.scrollSpeed.value!!)
+            jsonWriter.name("panelSpacing").value(viewModel.panelSpacing.value!!)
+
+            generateHapticsPrefsBooleanArr(jsonWriter)
+            jsonWriter.endObject()
+
+            jsonWriter.close()
+
             finish()
         }
+
 
         mRecyclerView.layoutManager = GridLayoutManager(
             this, 3
@@ -309,8 +359,13 @@ class EditComicActivity : AppCompatActivity() {
         viewModel.setPanels(finalMutableList)
     }
 
-    fun showPanelSpacingDialog() {
-
+    fun generateHapticsPrefsBooleanArr(writer: JsonWriter) {
+        writer.name("hapticsPrefs")
+        writer.beginArray()
+        for (panel in viewModel.panels.value!!) {
+            writer.value(panel.hasHaptics)
+        }
+        writer.endArray()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
