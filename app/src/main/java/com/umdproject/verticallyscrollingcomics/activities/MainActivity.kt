@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.JsonReader
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
@@ -85,6 +86,13 @@ class MainActivity : AppCompatActivity() {
         */
     }
 
+    override fun onResume() {
+        super.onResume()
+        Log.d("VSC_RESUME", "Resumed main activity.")
+        populateLocalComicPreviews()
+
+    }
+
     private fun populateLocalComicPreviews() {
         val uidDir = File(this.filesDir, "/comics/" + viewModel.uid.value.toString())
         if (!uidDir.exists()) {
@@ -131,5 +139,6 @@ class MainActivity : AppCompatActivity() {
             newList.add(LocalComicPreview(titleImg, currDir, author, title))
         }
         viewModel.setComicPreviews(newList)
+        Log.d("VSC_RESUME","After refreshing, preview list is of size " + newList.size)
     }
 }
