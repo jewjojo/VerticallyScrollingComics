@@ -10,12 +10,12 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.ViewModelProvider
 import com.umdproject.verticallyscrollingcomics.R
 import com.umdproject.verticallyscrollingcomics.databinding.ReadCommentsBinding
+import com.umdproject.verticallyscrollingcomics.viewModels.CurrentComicViewModel
 import com.umdproject.verticallyscrollingcomics.viewModels.MainViewModel
 
 // check GraphicsPaint in class repo to paint toolbar
 class ReadComments : AppCompatActivity() {
-    private var commentList = arrayListOf<String>()
-    //private lateinit var comicViewModel: CurrentComicViewModel
+    private lateinit var comicViewModel: CurrentComicViewModel
     private lateinit var accountViewModel: MainViewModel
     private lateinit var commentDisplay: TextView
 
@@ -25,24 +25,15 @@ class ReadComments : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
-        //comicViewModel = ViewModelProvider(this)[CurrentComicViewModel::class.java]
+        comicViewModel = ViewModelProvider(this)[CurrentComicViewModel::class.java]
         accountViewModel = ViewModelProvider(this)[MainViewModel::class.java]
         commentDisplay = binding.readCommentsList
 
         // set comic title from intent
-        binding.editorTitleText.text = "FILL IN COMIC TITLE"
+        binding.editorTitleText.text = comicViewModel.title.toString()
 
         // fill in list of strings
-        if (intent.hasExtra("commentsList")) {
-            commentList = intent.getStringArrayListExtra("commentsList")!!
-            populateScreen()
-        }
-
-        // initial test population of comments
-        commentList.add("test1")
-        commentList.add("test2")
-        commentDisplay.text = commentList.joinToString(separator = "\n")
-
+        populateScreen()
 
         // exit the comments page
         binding.buttonSaveAndExit.setOnClickListener {
@@ -68,13 +59,16 @@ class ReadComments : AppCompatActivity() {
     }
 
     private fun populateScreen() {
-        commentDisplay.text = commentList.joinToString(separator = "\n")
+        var tempList = comicViewModel.commentsList.value
+        commentDisplay.text = tempList?.joinToString(separator = "\n")
     }
 
     private fun leaveComment(yourComment: String) {
         // add account name: comment to list and update on firebase
         Log.i("Comment", "yourComment: $yourComment")
-        commentList.add(accountViewModel.email.value + ": " + yourComment)
+        var tempList = comicViewModel.commentsList.value
+        tempList?.add(accountViewModel.email.value + ": " + yourComment)
+        comicViewModel.setComments(tempList!!)
         populateScreen()
     }
 }

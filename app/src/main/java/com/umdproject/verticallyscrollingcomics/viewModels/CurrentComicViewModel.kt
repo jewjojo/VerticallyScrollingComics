@@ -30,8 +30,8 @@ class CurrentComicViewModel : ViewModel() {
         get() = _panelSpacing
 
 
-    private val _commentsList = MutableLiveData<Int>()
-    internal val commentsList: LiveData<Int>
+    private val _commentsList = MutableLiveData<MutableList<String>>()
+    internal val commentsList: LiveData<MutableList<String>>
         get() = _commentsList
 
     private val _title = MutableLiveData<String>()
@@ -73,6 +73,10 @@ class CurrentComicViewModel : ViewModel() {
 
     fun newPanelSpacing(newSpacing: Int) {
         _panelSpacing.value = newSpacing
+    }
+
+    fun setComments(newComments: MutableList<String>) {
+        _commentsList.value = newComments
     }
 
     init {

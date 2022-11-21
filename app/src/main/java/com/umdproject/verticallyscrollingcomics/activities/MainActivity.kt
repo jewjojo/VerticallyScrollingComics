@@ -77,12 +77,9 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // DELETE THIS, testing readComments
-        /*
+        /* //DELETE THIS, testing readComments
         val intent2 = Intent(this, ReadComments::class.java)
-        //intent2.putExtra("commentsList", arrayOf<String>("1", "2", "3"))
-        startActivity(intent2)
-        */
+        startActivity(intent2)*/
     }
 
     private fun populateLocalComicPreviews() {
