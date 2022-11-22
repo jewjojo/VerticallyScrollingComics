@@ -2,16 +2,17 @@ package com.umdproject.verticallyscrollingcomics.activities
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.ViewModelProvider
 import com.umdproject.verticallyscrollingcomics.R
 import com.umdproject.verticallyscrollingcomics.databinding.ReadCommentsBinding
 import com.umdproject.verticallyscrollingcomics.viewModels.CurrentComicViewModel
 import com.umdproject.verticallyscrollingcomics.viewModels.MainViewModel
+
 
 // check GraphicsPaint in class repo to paint toolbar
 class ReadComments : AppCompatActivity() {
@@ -42,6 +43,7 @@ class ReadComments : AppCompatActivity() {
 
         binding.leaveComment.setOnClickListener {
             val yourComment: String = binding.comment.text.toString()
+            /* UNCOMMENT THIS
 
             if (accountViewModel.email.value.isNullOrBlank()) {
                 Toast.makeText(
@@ -49,7 +51,7 @@ class ReadComments : AppCompatActivity() {
                     getString(R.string.sign_in_toast),
                     Toast.LENGTH_LONG
                 ).show()
-            }
+            }*/
 
             if (!TextUtils.isEmpty(yourComment)) {
                 leaveComment(yourComment)
@@ -61,14 +63,28 @@ class ReadComments : AppCompatActivity() {
     private fun populateScreen() {
         var tempList = comicViewModel.commentsList.value
         commentDisplay.text = tempList?.joinToString(separator = "\n")
+        commentDisplay.movementMethod = ScrollingMovementMethod()
     }
 
     private fun leaveComment(yourComment: String) {
         // add account name: comment to list and update on firebase
-        Log.i("Comment", "yourComment: $yourComment")
-        var tempList = comicViewModel.commentsList.value
-        tempList?.add(accountViewModel.email.value + ": " + yourComment)
-        comicViewModel.setComments(tempList!!)
+        val i = Log.i("Comment", "yourComment: $yourComment")
+
+        // initialize empty list
+        var tempList: MutableList<String> = arrayListOf()
+
+        // check if comments stored in firebase are empty or dont exist
+        if (comicViewModel.commentsList.value.isNullOrEmpty()) {
+            // if they dont exist, initialize them to the empty list
+            comicViewModel.setComments(tempList)
+        }
+        // copy the list from storage, add the new comment, then reupload
+        tempList = comicViewModel.commentsList.value!!
+        tempList.add(accountViewModel.email.value + ": " + yourComment)
+        comicViewModel.setComments(tempList)
+
+        Log.i("Comment", "All comments: $tempList")
+        Log.i("Comment", "Viewmodel Storage: " + comicViewModel.commentsList.value)
         populateScreen()
     }
 }

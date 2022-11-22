@@ -17,6 +17,7 @@
         <TextView
             android:id="@+id/editorTitleText"
             style="?android:attr/buttonBarButtonStyle"
+            android:scrollbars="vertical"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -43,21 +44,24 @@
         android:id="@+id/readCommentsList"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:textSize="50dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constrainedHeight="true"
         app:layout_constraintTop_toBottomOf="@id/topBar"
+        app:layout_constraintBottom_toTopOf="@id/commentBox"
         />
 
 
     <LinearLayout
         android:id="@+id/commentBox"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:padding="16dp"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/readCommentsList">
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <EditText
             android:id="@+id/comment"
