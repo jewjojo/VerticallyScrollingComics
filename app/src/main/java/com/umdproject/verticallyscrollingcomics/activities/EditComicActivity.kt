@@ -195,9 +195,6 @@ class EditComicActivity : AppCompatActivity() {
             colorDialog.show()
         }
 
-
-
-
         mRecyclerView = findViewById(R.id.editorRecyclerView)
 
         if (intent.hasExtra("uid")) {
@@ -213,50 +210,59 @@ class EditComicActivity : AppCompatActivity() {
         }
 
         binding.buttonSaveAndExit.setOnClickListener() {
-            var comDir: String
-
-            if (isExisting) {
-                comDir = filePath
+            if (viewModel.author.value!! == "" || viewModel.title.value!! == "" || viewModel.panels.value!!.size == 0) {
+                Toast.makeText(applicationContext, "Make sure to set an author name, comic title, and add some panels!", Toast.LENGTH_LONG).show()
             } else {
-                comDir = this.filesDir.toString() + "/comics/" + uid.toString() + "/" + uid.toString() + "_" + String.format("%09d", nextInt(1000000000))
-                File(comDir).mkdirs()
+                var comDir: String
+
+                if (isExisting) {
+                    comDir = filePath
+                } else {
+                    comDir =
+                        this.filesDir.toString() + "/comics/" + uid.toString() + "/" + uid.toString() + "_" + String.format(
+                            "%09d",
+                            nextInt(1000000000)
+                        )
+                    File(comDir).mkdirs()
+                }
+
+
+
+                viewModel.panels.value!!.forEachIndexed { i, panel ->
+                    val panelFile = File(comDir + "/" + (i + 1).toString() + ".png")
+                    panelFile.createNewFile()
+                    val panelOut = panelFile.outputStream()
+                    var panelImg = Bitmap.createScaledBitmap(panel.image, 600, 1000, true)
+                    val completed = panelImg.compress(Bitmap.CompressFormat.PNG, 100, panelOut)
+                    Log.d("VSC_SAVE", completed.toString())
+                    panelOut.flush()
+                    panelOut.close()
+                }
+
+                val jsonMetadataStream = File(comDir + "/" + "metadata.json").outputStream()
+                val jsonWriter = JsonWriter(OutputStreamWriter(jsonMetadataStream))
+                jsonWriter.setIndent("  ")
+
+
+                // Writing JSON
+
+                jsonWriter.beginObject()
+                jsonWriter.name("author").value(viewModel.author.value!!)
+                jsonWriter.name("title").value(viewModel.title.value!!)
+                jsonWriter.name("bgRed").value(viewModel.backgroundColor.value!!.red())
+                jsonWriter.name("bgGreen").value(viewModel.backgroundColor.value!!.green())
+                jsonWriter.name("bgBlue").value(viewModel.backgroundColor.value!!.blue())
+                jsonWriter.name("scrollSpeed").value(viewModel.scrollSpeed.value!!)
+                jsonWriter.name("panelSpacing").value(viewModel.panelSpacing.value!!)
+
+                generateHapticsPrefsBooleanArr(jsonWriter)
+                jsonWriter.endObject()
+
+                jsonWriter.close()
+
+                finish()
+
             }
-
-
-
-            viewModel.panels.value!!.forEachIndexed { i, panel ->
-                val panelFile = File(comDir + "/" + (i + 1).toString() + ".png")
-                panelFile.createNewFile()
-                val panelOut = panelFile.outputStream()
-                var panelImg = Bitmap.createScaledBitmap(panel.image, 600, 1000, true)
-                val completed = panelImg.compress(Bitmap.CompressFormat.PNG, 100, panelOut)
-                Log.d("VSC_SAVE", completed.toString())
-                panelOut.flush()
-                panelOut.close()
-            }
-
-            val jsonMetadataStream = File(comDir + "/" + "metadata.json").outputStream()
-            val jsonWriter = JsonWriter(OutputStreamWriter(jsonMetadataStream))
-            jsonWriter.setIndent("  ")
-
-
-            // Writing JSON
-
-            jsonWriter.beginObject()
-            jsonWriter.name("author").value(viewModel.author.value!!)
-            jsonWriter.name("title").value(viewModel.title.value!!)
-            jsonWriter.name("bgRed").value(viewModel.backgroundColor.value!!.red())
-            jsonWriter.name("bgGreen").value(viewModel.backgroundColor.value!!.green())
-            jsonWriter.name("bgBlue").value(viewModel.backgroundColor.value!!.blue())
-            jsonWriter.name("scrollSpeed").value(viewModel.scrollSpeed.value!!)
-            jsonWriter.name("panelSpacing").value(viewModel.panelSpacing.value!!)
-
-            generateHapticsPrefsBooleanArr(jsonWriter)
-            jsonWriter.endObject()
-
-            jsonWriter.close()
-
-            finish()
         }
 
 
@@ -316,6 +322,12 @@ class EditComicActivity : AppCompatActivity() {
         val newList: MutableList<Pair<Int, Bitmap>> = mutableListOf()
         var title: String = ""
         var author: String = ""
+        var scrollSpeed: Float = 0.0f
+        var panelSpacing: Int = 0
+        var bgRed: Float = 0f
+        var bgGreen: Float = 0f
+        var bgBlue: Float = 0f
+        var hapticsPrefs: MutableList<Boolean> = mutableListOf()
 
         comDir.walk().forEach {
             val currFilePath = it.toString()
@@ -330,7 +342,7 @@ class EditComicActivity : AppCompatActivity() {
                 val jsonReader = JsonReader(InputStreamReader(fileInputStream, "UTF-8"))
 
                 try {
-                    // For now the metadata is just a single JSON object with some values, this will change later
+
                     jsonReader.beginObject()
                     while (jsonReader.hasNext()) {
                         val tokenName = jsonReader.nextName()
@@ -339,6 +351,22 @@ class EditComicActivity : AppCompatActivity() {
                         } else if (tokenName.equals("author")) {
                             author = jsonReader.nextString()
 
+                        } else if (tokenName.equals("bgRed")) {
+                            bgRed = jsonReader.nextDouble().toFloat()
+                        } else if (tokenName.equals("bgGreen")) {
+                            bgGreen = jsonReader.nextDouble().toFloat()
+                        } else if (tokenName.equals("bgBlue")) {
+                            bgBlue = jsonReader.nextDouble().toFloat()
+                        } else if (tokenName.equals("scrollSpeed")) {
+                            scrollSpeed = jsonReader.nextDouble().toFloat()
+                        } else if (tokenName.equals("panelSpacing")) {
+                            panelSpacing = jsonReader.nextDouble().toInt()
+                        } else if (tokenName.equals("hapticsPrefs")) {
+                            jsonReader.beginArray()
+                            while (jsonReader.hasNext()) {
+                                hapticsPrefs.add(jsonReader.nextBoolean())
+                            }
+                            jsonReader.endArray()
                         } else {
                             jsonReader.skipValue()
                         }
@@ -349,6 +377,9 @@ class EditComicActivity : AppCompatActivity() {
                 }
                 viewModel.setTitle(title)
                 viewModel.setAuthor(author)
+                viewModel.newPanelSpacing(panelSpacing)
+                viewModel.setScrollSpeed(scrollSpeed)
+                viewModel.setBackgroundColor(Color.valueOf(bgRed, bgGreen, bgBlue))
             }
         }
         val sortedList = newList.sortedWith(compareBy({it.first}))
@@ -356,10 +387,14 @@ class EditComicActivity : AppCompatActivity() {
         for (item in sortedList) {
             finalMutableList.add(ComicPanel(item.second))
         }
+
+        finalMutableList.forEachIndexed() { i, panel ->
+            panel.hasHaptics = hapticsPrefs[i]
+        }
         viewModel.setPanels(finalMutableList)
     }
 
-    fun generateHapticsPrefsBooleanArr(writer: JsonWriter) {
+    private fun generateHapticsPrefsBooleanArr(writer: JsonWriter) {
         writer.name("hapticsPrefs")
         writer.beginArray()
         for (panel in viewModel.panels.value!!) {

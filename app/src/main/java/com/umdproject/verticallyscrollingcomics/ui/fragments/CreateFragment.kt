@@ -54,6 +54,7 @@ class CreateFragment : Fragment() {
         viewModel.comicPreviews.observe(viewLifecycleOwner) {
             Log.d("VSC_CF", "CF observed comicPreviews update")
             comicAdapter.comics = it
+            comicAdapter.notifyDataSetChanged()
         }
 
         val createButton = view.findViewById(R.id.fab) as FloatingActionButton
