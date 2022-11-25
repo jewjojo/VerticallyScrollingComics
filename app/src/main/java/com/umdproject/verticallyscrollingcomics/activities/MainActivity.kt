@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                 .commitNow()
         }
 
-        // change fragment on Account press
+        // open Account login/register page
         binding.buttonAccount.setOnClickListener {
 //            supportFragmentManager.beginTransaction()
 //                .replace(binding.fragmentContainerView.id, AccountFragment.newInstance())

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/readerTitleText"
+            style="?android:attr/buttonBarButtonStyle"
+            android:scrollbars="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:autoSizeTextType="uniform"
+            android:includeFontPadding="false"
+            android:maxLines="2"
+            android:text="@string/replace_with_title"
+            tools:ignore="TouchTargetSizeCheck"></TextView>
+
+        <Button
+            android:id="@+id/buttonComments"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoSizeTextType="uniform"
+            android:includeFontPadding="false"
+            android:maxLines="2"
+            android:text="@string/comments"
+            tools:ignore="TouchTargetSizeCheck,TextContrastCheck"></Button>
+
+        <Button
+            android:id="@+id/buttonClose"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoSizeTextType="uniform"
+            android:includeFontPadding="false"
+            android:maxLines="2"
+            android:text="@string/close"
+            tools:ignore="TouchTargetSizeCheck,TextContrastCheck"></Button>
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/readCommentsList"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topBar" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
