@@ -1,18 +1,23 @@
 package com.umdproject.verticallyscrollingcomics.ui.fragments
 
-import androidx.lifecycle.ViewModelProvider
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemClickListener
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.database.*
-import com.umdproject.verticallyscrollingcomics.viewModels.MainViewModel
-import com.umdproject.verticallyscrollingcomics.R
-import com.umdproject.verticallyscrollingcomics.databinding.BrowseFragmentBinding
+import com.umdproject.verticallyscrollingcomics.activities.ReadComic
+import com.umdproject.verticallyscrollingcomics.activities.ReadComments
 import com.umdproject.verticallyscrollingcomics.dataClasses.ReadableComic
 import com.umdproject.verticallyscrollingcomics.dataClasses.ReadableComicList
+import com.umdproject.verticallyscrollingcomics.databinding.BrowseFragmentBinding
+import com.umdproject.verticallyscrollingcomics.viewModels.MainViewModel
+
 
 // This fragment displays the general browsing list for all comics available in app.
 // implementation info on scrollable list in recycler view:
@@ -28,7 +33,6 @@ class BrowseFragment : Fragment() {
         const val TAG = "BrowseFragment-FirebaseRealtimeDatabase"
     }
 
-    private lateinit var viewModel: MainViewModel
     private lateinit var binding: BrowseFragmentBinding
 
     private lateinit var readableComics: MutableList<ReadableComic>
@@ -78,6 +82,7 @@ class BrowseFragment : Fragment() {
                 val comicAdapter = ReadableComicList(requireContext(), readableComics)
 
                 binding.gridView.adapter = comicAdapter
+
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -85,12 +90,6 @@ class BrowseFragment : Fragment() {
             }
 
         })
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
 }
