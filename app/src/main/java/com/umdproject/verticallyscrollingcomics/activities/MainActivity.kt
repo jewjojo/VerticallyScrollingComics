@@ -78,8 +78,8 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        /* //DELETE THIS, testing readComments
-        val intent2 = Intent(this, ReadComments::class.java)
+        //DELETE THIS, testing readComments
+        /*val intent2 = Intent(this, ReadComments::class.java)
         startActivity(intent2)*/
     }
 

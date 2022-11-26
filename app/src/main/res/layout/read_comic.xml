@@ -51,14 +51,4 @@
     </LinearLayout>
 
 
-    <TextView
-        android:id="@+id/readCommentsList"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"
-        app:layout_constrainedHeight="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topBar" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -45,13 +45,14 @@ class ReadComments : AppCompatActivity() {
             val yourComment: String = binding.comment.text.toString()
 
             //check if signed in
+            /*
             if (accountViewModel.email.value.isNullOrBlank()) {
                 Toast.makeText(
                     this,
                     getString(R.string.sign_in_toast),
                     Toast.LENGTH_LONG
                 ).show()
-            }
+            }*/
 
             if (!TextUtils.isEmpty(yourComment)) {
                 leaveComment(yourComment)
