@@ -5,6 +5,7 @@ data class ReadableComic (
     val comicName: String = "",
     val comicAuthorName: String = "",
     val comicAuthorId: String = "",
+    val comicId: String = "",
     val panelCount: Int = 0,
     val thumbnailResId: String = "",
     val views: Int = 0,
