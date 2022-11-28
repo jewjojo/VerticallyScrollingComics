@@ -86,21 +86,36 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         Log.d("VSC_RESUME", "Resumed main activity.")
+        if (auth.currentUser != null) {
+            Log.d("VSC_USER", auth.currentUser!!.uid)
+        }
         populateLocalComicPreviews()
 
     }
 
     private fun populateLocalComicPreviews() {
-        val uidDir = File(this.filesDir, "/comics/" + viewModel.uid.value.toString())
+        var currUid: String
+        currUid = if (auth.currentUser != null) {
+            auth.currentUser!!.uid
+        } else {
+            0.toString()
+        }
+        val uidDir = File(this.filesDir, "/comics/" + currUid)
+        val uidDirDefault = File(this.filesDir, "/comics/" + 0.toString())
         if (!uidDir.exists()) {
             uidDir.mkdirs()
             return
         }
 
-        // Always load comics under UUID 0 (The guest UUID, used for when you aren't signed in)
         val newList: MutableList<LocalComicPreview> = mutableListOf()
 
-        val directories = uidDir.listFiles { obj: File -> obj.isDirectory }
+        val defaultDirectories = uidDirDefault.listFiles { obj: File -> obj.isDirectory }
+
+        var directories = uidDir.listFiles { obj: File -> obj.isDirectory }
+
+        /*if (defaultDirectories != null && currUid != "0") {
+            directories += defaultDirectories
+        }*/
 
         // Iterate through all comics in filepath
         for (it in directories) {

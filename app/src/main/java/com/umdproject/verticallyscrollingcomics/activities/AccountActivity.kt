@@ -1,6 +1,7 @@
 package com.umdproject.verticallyscrollingcomics.activities
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.umdproject.verticallyscrollingcomics.databinding.AccountActivityBinding
@@ -20,6 +21,8 @@ class AccountActivity: AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(binding.fragmentContainerView.id, LoginSignupFragment.newInstance())
                 .commitNow()
+        } else {
+
         }
 
 

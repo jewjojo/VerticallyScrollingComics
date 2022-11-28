@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.umdproject.verticallyscrollingcomics.R
 import com.umdproject.verticallyscrollingcomics.adapters.EditorPanelAdapter
 import com.umdproject.verticallyscrollingcomics.dataClasses.ComicPanel
@@ -41,10 +42,12 @@ import kotlin.random.Random.Default.nextInt
 class EditComicActivity : AppCompatActivity() {
     private lateinit var viewModel: CurrentComicViewModel
     private lateinit var filePath: String
-    private var uid by Delegates.notNull<Int>()
+    private var uid by Delegates.notNull<String>()
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var epAdapter: EditorPanelAdapter
     private var isExisting by Delegates.notNull<Boolean>()
+
+    private lateinit var auth: FirebaseAuth
 
     private val testPanels: MutableList<Bitmap> = mutableListOf(Bitmap.createBitmap(500,500, Bitmap.Config.RGB_565), Bitmap.createBitmap(500,500, Bitmap.Config.RGB_565), Bitmap.createBitmap(500,500, Bitmap.Config.RGB_565),
         Bitmap.createBitmap(500,500, Bitmap.Config.ALPHA_8), Bitmap.createBitmap(500,500, Bitmap.Config.RGB_565), Bitmap.createBitmap(500,500, Bitmap.Config.RGB_565),
@@ -57,6 +60,8 @@ class EditComicActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         viewModel = ViewModelProvider(this)[CurrentComicViewModel::class.java]
+
+        auth = FirebaseAuth.getInstance()
 
         binding.pickImageButton.setOnClickListener() {
             val intent = Intent(Intent.ACTION_PICK)
@@ -198,7 +203,13 @@ class EditComicActivity : AppCompatActivity() {
         mRecyclerView = findViewById(R.id.editorRecyclerView)
 
         if (intent.hasExtra("uid")) {
-            uid = intent.getIntExtra("uid", 0)
+            uid = intent.getIntExtra("uid", 0).toString()
+        }
+
+        if (auth.currentUser != null) {
+            uid = auth.currentUser!!.uid
+        } else {
+            uid = 0.toString()
         }
 
         if (intent.hasExtra("filePath")) {
@@ -219,7 +230,7 @@ class EditComicActivity : AppCompatActivity() {
                     comDir = filePath
                 } else {
                     comDir =
-                        this.filesDir.toString() + "/comics/" + uid.toString() + "/" + uid.toString() + "_" + String.format(
+                        this.filesDir.toString() + "/comics/" + uid + "/" + String.format(
                             "%09d",
                             nextInt(1000000000)
                         )
@@ -281,8 +292,7 @@ class EditComicActivity : AppCompatActivity() {
         }
 
 
-        // Helper class for creating swipe to dismiss and drag and drop
-        // functionality
+
         val helper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT or
                     ItemTouchHelper.DOWN or ItemTouchHelper.UP,
@@ -293,11 +303,11 @@ class EditComicActivity : AppCompatActivity() {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                // Get the from and to positions.
+
                 val from = viewHolder.adapterPosition
                 val to = target.adapterPosition
 
-                // Swap the items and notify the adapter.
+
                 viewModel.panels.value!![from] = viewModel.panels.value!![to].also { viewModel.panels.value!![to] = viewModel.panels.value!![from] }
                 //Log.d("VSC_SWAP_PANELS", to.toString() + " to " + from.toString())
                 epAdapter.notifyItemMoved(from, to)
@@ -310,9 +320,6 @@ class EditComicActivity : AppCompatActivity() {
 
         })
 
-        // Attach the helper to the RecyclerView.
-
-        // Attach the helper to the RecyclerView.
         helper.attachToRecyclerView(mRecyclerView)
     }
 
