@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.database.*
 import com.umdproject.verticallyscrollingcomics.R
 import com.umdproject.verticallyscrollingcomics.dataClasses.Comment
-import com.umdproject.verticallyscrollingcomics.dataClasses.commentList
+import com.umdproject.verticallyscrollingcomics.dataClasses.CommentList
 import com.umdproject.verticallyscrollingcomics.databinding.ReadCommentsBinding
 import com.umdproject.verticallyscrollingcomics.ui.fragments.BrowseFragment
 import com.umdproject.verticallyscrollingcomics.viewModels.CurrentComicViewModel
@@ -86,7 +86,7 @@ class ReadComments : AppCompatActivity() {
 
                 // fill in list of strings
                 //populateScreen()
-                val commentAdapter = commentList(this, comments)
+                val commentAdapter = CommentList(this, comments)
                 binding.readCommentsList.adapter = commentAdapter
             }
 

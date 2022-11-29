@@ -14,7 +14,7 @@ import com.umdproject.verticallyscrollingcomics.databinding.ReadableComicListIte
 import com.umdproject.verticallyscrollingcomics.databinding.ReadableCommentListItemLayoutBinding
 import java.text.FieldPosition
 
-class commentList(
+class CommentList(
     context: Context, //ValueEventListener,
     private var comments: List<Comment>,
 ) : ArrayAdapter<Comment>(
