@@ -80,14 +80,14 @@ class BrowseFragment : Fragment() {
 
             comicStorageRef.listAll()
                 .addOnSuccessListener { listResult ->
-                    for (item in listResult.items) {
-                        comicStorageRef.child(item.name)
-                            .getFile(File(requireActivity().filesDir, "/downloads/" + comicId + "/" + item.name))
+                    listResult.items.forEachIndexed { index, storageReference ->
+                        comicStorageRef.child(storageReference.name)
+                            .getFile(File(requireActivity().filesDir, "/downloads/" + comicId + "/" + storageReference.name))
+                        if (index == listResult.items.size-1) { // Downloaded last file!
+                            // Need to put all code depending on listAll() completing here, since it's async
+                            // Launch reading activity here..... Also need to pull comments.
+                        }
                     }
-                    // Need to put all code depending on listAll() completing here, since it's async
-                    // Launch reading activity here..... Also need to pull comments.
-
-
 
                 }
         }
@@ -114,19 +114,18 @@ class BrowseFragment : Fragment() {
                 var root = storage.reference
 
 
-                for (comic in readableComics) {
+                readableComics.forEachIndexed { index, comic ->
                     var comicStorageRef = root.child("comics/" + comic.comicId + "/" + "1.png")
                     comicStorageRef.getBytes(50*1024*1024).addOnSuccessListener { rawBytes -> // 50 MB maximum title image size
                         thumbnails.add(BitmapFactory.decodeByteArray(rawBytes, 0, rawBytes.size))
                         Log.d("VSC_THUMBNAIL", thumbnails.toString())
-                        comicAdapter.thumbnails = thumbnails
-                        comicAdapter.notifyDataSetChanged()
+                        if (index == readableComics.size-1) {
+                            comicAdapter.thumbnails = thumbnails
+                            comicAdapter.notifyDataSetChanged()
+                        }
+
                     }
                 }
-                Log.d("VSC_THUMBNAIL", thumbnails.toString())
-
-                comicAdapter.comics = readableComics
-                comicAdapter.notifyDataSetChanged()
             }
 
             override fun onCancelled(error: DatabaseError) {
