@@ -35,6 +35,7 @@ class ReadComic : AppCompatActivity() {
 
         // exit the comic page
         binding.buttonClose.setOnClickListener {
+
             finish()
         }
 
