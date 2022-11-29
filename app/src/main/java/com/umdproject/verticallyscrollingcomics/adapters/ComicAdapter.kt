@@ -4,6 +4,7 @@ package com.umdproject.verticallyscrollingcomics.adapters
 import com.umdproject.verticallyscrollingcomics.R
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.JsonReader
@@ -92,6 +93,27 @@ class ComicAdapter(private val activity: FragmentActivity, private val mContext:
                             failed = true
                         }.addOnSuccessListener { taskSnapshot ->
                             //....
+                        }
+
+                        if (it.nameWithoutExtension == "1") {
+                            var rawImage = BitmapFactory.decodeFile(it.absolutePath)
+                            rawImage = Bitmap.createScaledBitmap(rawImage, 300, 500, true)
+                            File(comic.filePath + "/temp/").mkdirs()
+                            val thumbnailFile = File(comic.filePath + "/temp/" + "thumbnail.jpg")
+                            thumbnailFile.createNewFile()
+                            val thumbnailStream = thumbnailFile.outputStream()
+                            val completed = rawImage.compress(Bitmap.CompressFormat.JPEG, 70, thumbnailStream)
+                            thumbnailStream.flush()
+                            thumbnailStream.close()
+
+                            val thumbnailRef = root.child("thumbnails/" + comicId + "/" + "thumbnail.jpg")
+                            val uploadTask = thumbnailRef.putFile(Uri.fromFile(thumbnailFile))
+                            uploadTask.addOnFailureListener {
+                                failed = true
+                            }.addOnSuccessListener { taskSnapshot ->
+                                thumbnailFile.delete()
+                                File(comic.filePath + "/temp/").delete()
+                            }
                         }
                     }
                 }
