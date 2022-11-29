@@ -63,7 +63,8 @@ class ReadComments : AppCompatActivity() {
 
         // firebase event listeners
         val comicID = intent.getStringExtra("comicID")!!
-        databaseReadableComments = FirebaseDatabase.getInstance().getReference("comicComments").child(comicID)
+        databaseReadableComments =
+            FirebaseDatabase.getInstance().getReference("comicComments/$comicID")
         comments = ArrayList()
 
         databaseReadableComments.addValueEventListener(object : ValueEventListener {
@@ -86,7 +87,7 @@ class ReadComments : AppCompatActivity() {
 
                 // fill in list of strings
                 //populateScreen()
-                val commentAdapter = CommentList(this, comments)
+                val commentAdapter = CommentList(this@ReadComments, comments)
                 binding.readCommentsList.adapter = commentAdapter
             }
 
