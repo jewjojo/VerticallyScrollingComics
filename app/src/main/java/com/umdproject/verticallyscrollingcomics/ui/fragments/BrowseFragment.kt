@@ -115,7 +115,7 @@ class BrowseFragment : Fragment() {
 
 
                 readableComics.forEachIndexed { index, comic ->
-                    var comicStorageRef = root.child("comics/" + comic.comicId + "/" + "1.png")
+                    var comicStorageRef = root.child("thumbnails/" + comic.comicId + "/" + "thumbnail.jpg")
                     comicStorageRef.getBytes(50*1024*1024).addOnSuccessListener { rawBytes -> // 50 MB maximum title image size
                         thumbnails.add(BitmapFactory.decodeByteArray(rawBytes, 0, rawBytes.size))
                         Log.d("VSC_THUMBNAIL", thumbnails.toString())
