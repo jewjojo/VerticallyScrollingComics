@@ -121,7 +121,6 @@ class MainActivity : AppCompatActivity() {
         for (it in directories) {
             val currDir = it.toString()
 
-
             val titleImg = BitmapFactory.decodeFile(currDir + "/1.png")
 
             val fileInputStream = FileInputStream(currDir + "/metadata.json")

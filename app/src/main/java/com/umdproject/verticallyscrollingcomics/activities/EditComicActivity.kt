@@ -229,11 +229,7 @@ class EditComicActivity : AppCompatActivity() {
                 if (isExisting) {
                     comDir = filePath
                 } else {
-                    comDir =
-                        this.filesDir.toString() + "/comics/" + uid + "/" + String.format(
-                            "%09d",
-                            nextInt(1000000000)
-                        )
+                    comDir = this.filesDir.toString() + "/comics/" + uid + "/" + gen9digitRandomNum() // Comic ID, 9 digits
                     File(comDir).mkdirs()
                 }
 
@@ -408,6 +404,14 @@ class EditComicActivity : AppCompatActivity() {
             writer.value(panel.hasHaptics)
         }
         writer.endArray()
+    }
+
+    private fun gen9digitRandomNum(): String {
+        var output = ""
+        for (i in 0..9) {
+            output += (0..9).random().toString()
+        }
+        return output
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

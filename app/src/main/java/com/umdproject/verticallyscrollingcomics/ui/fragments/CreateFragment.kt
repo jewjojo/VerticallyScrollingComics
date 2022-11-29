@@ -12,6 +12,8 @@ import android.widget.GridView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.umdproject.verticallyscrollingcomics.activities.EditComicActivity
 import com.umdproject.verticallyscrollingcomics.viewModels.MainViewModel
 import com.umdproject.verticallyscrollingcomics.R
@@ -27,6 +29,7 @@ class CreateFragment : Fragment() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var mContext : Context
+    //private var storage = Firebase.storage
     val testArr = arrayListOf(
         LocalComicPreview(Bitmap.createBitmap(500,500, Bitmap.Config.RGB_565), "dummy", "Author 1", "Title 1"),
         LocalComicPreview(Bitmap.createBitmap(500,500, Bitmap.Config.RGB_565), "dummy", "Author 2", "Title 2")

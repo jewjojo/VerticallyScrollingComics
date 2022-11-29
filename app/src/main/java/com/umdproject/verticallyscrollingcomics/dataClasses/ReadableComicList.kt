@@ -12,7 +12,7 @@ import java.text.FieldPosition
 
 class ReadableComicList(
     context: Context,
-    private var comics: List<ReadableComic>
+    var comics: List<ReadableComic>
 ) : ArrayAdapter<ReadableComic>(
     context,
     R.layout.readable_comic_list_item_layout,

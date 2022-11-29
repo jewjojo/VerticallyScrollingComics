@@ -59,6 +59,9 @@ class BrowseFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
+        val comicAdapter = ReadableComicList(requireContext(), readableComics)
+        binding.gridView.adapter = comicAdapter
+
         databaseReadableComics.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
@@ -78,11 +81,8 @@ class BrowseFragment : Fragment() {
 
                     }
                 }
-
-                val comicAdapter = ReadableComicList(requireContext(), readableComics)
-
-                binding.gridView.adapter = comicAdapter
-
+                comicAdapter.comics = readableComics
+                comicAdapter.notifyDataSetChanged()
             }
 
             override fun onCancelled(error: DatabaseError) {
