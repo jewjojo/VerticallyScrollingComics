@@ -1,5 +1,7 @@
 package com.umdproject.verticallyscrollingcomics.ui.fragments
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -35,6 +37,7 @@ class BrowseFragment : Fragment() {
     private lateinit var binding: BrowseFragmentBinding
 
     private lateinit var readableComics: MutableList<ReadableComic>
+    private lateinit var thumbnails: MutableList<Bitmap>
     private lateinit var databaseReadableComics: DatabaseReference
     private var storage = Firebase.storage
 
@@ -54,12 +57,13 @@ class BrowseFragment : Fragment() {
         databaseReadableComics = FirebaseDatabase.getInstance().getReference("readableComics")
 
         readableComics = ArrayList()
+        thumbnails = ArrayList()
     }
 
     override fun onStart() {
         super.onStart()
 
-        val comicAdapter = ReadableComicList(requireContext(), readableComics)
+        val comicAdapter = ReadableComicList(requireContext(), readableComics, thumbnails)
         binding.gridView.adapter = comicAdapter
 
         binding.gridView.setOnItemClickListener() { adapterView, view, position, id ->
@@ -80,8 +84,12 @@ class BrowseFragment : Fragment() {
                         comicStorageRef.child(item.name)
                             .getFile(File(requireActivity().filesDir, "/downloads/" + comicId + "/" + item.name))
                     }
-                }
+                    // Need to put all code depending on listAll() completing here, since it's async
+                    // Launch reading activity here..... Also need to pull comments.
 
+
+
+                }
         }
 
         databaseReadableComics.addValueEventListener(object : ValueEventListener {
@@ -103,6 +111,20 @@ class BrowseFragment : Fragment() {
 
                     }
                 }
+                var root = storage.reference
+
+
+                for (comic in readableComics) {
+                    var comicStorageRef = root.child("comics/" + comic.comicId + "/" + "1.png")
+                    comicStorageRef.getBytes(50*1024*1024).addOnSuccessListener { rawBytes -> // 50 MB maximum title image size
+                        thumbnails.add(BitmapFactory.decodeByteArray(rawBytes, 0, rawBytes.size))
+                        Log.d("VSC_THUMBNAIL", thumbnails.toString())
+                        comicAdapter.thumbnails = thumbnails
+                        comicAdapter.notifyDataSetChanged()
+                    }
+                }
+                Log.d("VSC_THUMBNAIL", thumbnails.toString())
+
                 comicAdapter.comics = readableComics
                 comicAdapter.notifyDataSetChanged()
             }
