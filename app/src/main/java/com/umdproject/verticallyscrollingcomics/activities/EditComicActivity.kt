@@ -1,9 +1,11 @@
 package com.umdproject.verticallyscrollingcomics.activities
 
+import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -18,11 +20,16 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.umdproject.verticallyscrollingcomics.R
 import com.umdproject.verticallyscrollingcomics.adapters.EditorPanelAdapter
@@ -64,9 +71,20 @@ class EditComicActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         binding.pickImageButton.setOnClickListener() {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            startActivityForResult(intent, 1)
+            when {
+                this.checkSelfPermission(PermissionInfo.PERMISSION) ==
+                        PackageManager.PERMISSION_GRANTED -> {
+                            fetchImage()
+                }
+
+                shouldShowRequestPermissionRationale(PermissionInfo.PERMISSION) -> {
+                    requestPermissionLauncher.launch(PermissionInfo.PERMISSION)
+                }
+                // User hasn't been asked for permission yet.
+                else -> {
+                    requestPermissionLauncher.launch(PermissionInfo.PERMISSION)
+                }
+            }
         }
 
         binding.panelSpacingButton.setOnClickListener() {
@@ -319,6 +337,12 @@ class EditComicActivity : AppCompatActivity() {
         helper.attachToRecyclerView(mRecyclerView)
     }
 
+    fun fetchImage() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, 1)
+    }
+
     private fun populateExistingData() {
         val comDir = File(filePath)
 
@@ -427,5 +451,22 @@ class EditComicActivity : AppCompatActivity() {
         }
     }
 
+    private val requestPermissionLauncher: ActivityResultLauncher<String> =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+            if (isGranted) {
+                fetchImage()
+            } else {
+                Toast.makeText(
+                    this, getString(R.string.need_permission_string),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+    companion object PermissionInfo {
+        const val PERMISSION = Manifest.permission.READ_EXTERNAL_STORAGE
+    }
 
 }

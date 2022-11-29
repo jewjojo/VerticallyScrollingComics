@@ -33,6 +33,7 @@
     <string name="edit">Edit</string>
     <string name="publish">Publish</string>
     <string name="invalid_email">Please enter valid email...</string>
+    <string name="need_permission_string">This app requires your permission in order to access photos</string>
     <string name="invalid_password">Password must contain 8 characters with one letter and one number!</string>
     <string name="register_success_string">Registration successful!</string>
     <string name="register_failed_string">Registration failed! Please try again later</string>
