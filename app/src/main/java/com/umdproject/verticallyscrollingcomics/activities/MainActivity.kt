@@ -40,6 +40,11 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
+        val downloadDir = File(this.filesDir, "/downloads")
+        if (!downloadDir.exists()) {
+            downloadDir.mkdirs()
+        }
+
         populateLocalComicPreviews()
 
         if (savedInstanceState == null) {
@@ -128,7 +133,6 @@ class MainActivity : AppCompatActivity() {
             var title: String = ""
             var author: String = ""
             try {
-                // For now the metadata is just a single JSON object with some values, this will change later
                 jsonReader.beginObject()
 
                 while (jsonReader.hasNext()) {

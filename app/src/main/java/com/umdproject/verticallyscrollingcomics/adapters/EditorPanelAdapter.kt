@@ -63,9 +63,9 @@ internal class EditorPanelAdapter(context: Context, viewModelIn: CurrentComicVie
         override fun onClick(view: View) {
 
             val dialogBuilder = AlertDialog.Builder(mContext)
-                dialogBuilder.setPositiveButton("Exit", DialogInterface.OnClickListener {
-                        dialog, id -> dialog.cancel()
-                })
+            dialogBuilder.setPositiveButton("Exit", DialogInterface.OnClickListener {
+                    dialog, id -> dialog.cancel()
+            })
 
             var hasHapticsListDebug = mutableListOf<Boolean>()
 

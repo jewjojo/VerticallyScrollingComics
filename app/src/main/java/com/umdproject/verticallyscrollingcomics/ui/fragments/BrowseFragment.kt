@@ -1,22 +1,21 @@
 package com.umdproject.verticallyscrollingcomics.ui.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.AdapterView.OnItemClickListener
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.database.*
-import com.umdproject.verticallyscrollingcomics.activities.ReadComic
-import com.umdproject.verticallyscrollingcomics.activities.ReadComments
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ListResult
+import com.google.firebase.storage.ktx.storage
 import com.umdproject.verticallyscrollingcomics.dataClasses.ReadableComic
 import com.umdproject.verticallyscrollingcomics.dataClasses.ReadableComicList
 import com.umdproject.verticallyscrollingcomics.databinding.BrowseFragmentBinding
-import com.umdproject.verticallyscrollingcomics.viewModels.MainViewModel
+import java.io.File
 
 
 // This fragment displays the general browsing list for all comics available in app.
@@ -37,6 +36,7 @@ class BrowseFragment : Fragment() {
 
     private lateinit var readableComics: MutableList<ReadableComic>
     private lateinit var databaseReadableComics: DatabaseReference
+    private var storage = Firebase.storage
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,6 +61,28 @@ class BrowseFragment : Fragment() {
 
         val comicAdapter = ReadableComicList(requireContext(), readableComics)
         binding.gridView.adapter = comicAdapter
+
+        binding.gridView.setOnItemClickListener() { adapterView, view, position, id ->
+            //Log.d("VSC_BROWSE", position.toString())
+            var comicId = readableComics[position].comicId
+            val downloadDir = File(requireActivity().filesDir, "/downloads/" + comicId)
+            if (!downloadDir.exists()) {
+                downloadDir.mkdirs()
+            }
+
+            var root = storage.reference
+            var comicStorageRef = root.child("comics/" + comicId)
+
+
+            comicStorageRef.listAll()
+                .addOnSuccessListener { listResult ->
+                    for (item in listResult.items) {
+                        comicStorageRef.child(item.name)
+                            .getFile(File(requireActivity().filesDir, "/downloads/" + comicId + "/" + item.name))
+                    }
+                }
+
+        }
 
         databaseReadableComics.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
