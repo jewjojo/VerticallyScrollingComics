@@ -18,5 +18,5 @@ data class ReadableComic (
     val panelOrder: MutableList<Int> = mutableListOf(),
     val panelSpacing: Int = 1,
     val panels: MutableList<ComicPanel> = mutableListOf(),
-    val commentList: MutableList<String>,
+    val commentList: MutableList<String> = mutableListOf(),
 )
