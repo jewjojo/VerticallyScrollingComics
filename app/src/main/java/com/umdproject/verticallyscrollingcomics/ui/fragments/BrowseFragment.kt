@@ -80,10 +80,12 @@ class BrowseFragment : Fragment() {
 
             comicStorageRef.listAll()
                 .addOnSuccessListener { listResult ->
+                    var numDownloads = 0
                     listResult.items.forEachIndexed { index, storageReference ->
                         comicStorageRef.child(storageReference.name)
                             .getFile(File(requireActivity().filesDir, "/downloads/" + comicId + "/" + storageReference.name))
-                        if (index == listResult.items.size-1) { // Downloaded last file!
+                        numDownloads++
+                        if (numDownloads == listResult.items.size) { // Downloaded last file!
                             // Need to put all code depending on listAll() completing here, since it's async
                             // Launch reading activity here..... Also need to pull comments.
                         }
@@ -113,13 +115,20 @@ class BrowseFragment : Fragment() {
                 }
                 var root = storage.reference
 
-
+                var tempThumbnailList: MutableList<Pair<Int, Bitmap>> = mutableListOf()
+                var numDownloads = 0
                 readableComics.forEachIndexed { index, comic ->
                     var comicStorageRef = root.child("thumbnails/" + comic.comicId + "/" + "thumbnail.jpg")
                     comicStorageRef.getBytes(50*1024*1024).addOnSuccessListener { rawBytes -> // 50 MB maximum title image size
-                        thumbnails.add(BitmapFactory.decodeByteArray(rawBytes, 0, rawBytes.size))
+                        tempThumbnailList.add(Pair(index, BitmapFactory.decodeByteArray(rawBytes, 0, rawBytes.size)))
                         Log.d("VSC_THUMBNAIL", thumbnails.toString())
-                        if (index == readableComics.size-1) {
+                        numDownloads++
+                        if (numDownloads == readableComics.size) {
+                            val sortedThumbnails = tempThumbnailList.sortedWith(compareBy({it.first}))
+                            thumbnails.clear()
+                            for (thumbnail in sortedThumbnails) {
+                                thumbnails.add(thumbnail.second)
+                            }
                             comicAdapter.thumbnails = thumbnails
                             comicAdapter.notifyDataSetChanged()
                         }
