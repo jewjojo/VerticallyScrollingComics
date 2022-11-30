@@ -5,20 +5,16 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
-import android.text.TextUtils
-import android.text.method.ScrollingMovementMethod
 import android.util.JsonReader
 import android.util.Log
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.umdproject.verticallyscrollingcomics.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.umdproject.verticallyscrollingcomics.adapters.ReadComicAdapter
 import com.umdproject.verticallyscrollingcomics.dataClasses.ComicPanel
 import com.umdproject.verticallyscrollingcomics.databinding.ReadComicBinding
-import com.umdproject.verticallyscrollingcomics.databinding.ReadCommentsBinding
 import com.umdproject.verticallyscrollingcomics.viewModels.CurrentComicViewModel
-import com.umdproject.verticallyscrollingcomics.viewModels.MainViewModel
 import java.io.File
 import java.io.FileInputStream
 import java.io.InputStreamReader
@@ -29,6 +25,8 @@ class ReadComic : AppCompatActivity() {
     private lateinit var viewModel: CurrentComicViewModel
     private lateinit var comicID: String
     private lateinit var filePath: String
+    private lateinit var mRecyclerView: RecyclerView
+    private lateinit var readComicAdapter: ReadComicAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +36,6 @@ class ReadComic : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this)[CurrentComicViewModel::class.java]
 
-
-
         if (intent.hasExtra("comicID")) {
             comicID = intent.getStringExtra("comicID")!!
         }
@@ -48,9 +44,34 @@ class ReadComic : AppCompatActivity() {
         }
 
         populateExistingData()
-        // set comic title from intent
+
+        mRecyclerView = binding.readerComicPanels
+        mRecyclerView.layoutManager = LinearLayoutManager(this)
+        mRecyclerView.adapter = ReadComicAdapter(this, viewModel)
+
+        mRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    val position: Int = (mRecyclerView.layoutManager as LinearLayoutManager?)!!
+                        .findFirstVisibleItemPosition()
+                    // Handle haptic feedback if position has haptics
+                }
+            }
+        })
+
+        // set comic title
         binding.readerTitleText.text = viewModel.title.value!!
+        // Set background color
         binding.bgColorView.setBackgroundColor(Color.rgb(viewModel.backgroundColor.value!!.red().toInt(), viewModel.backgroundColor.value!!.green().toInt(), viewModel.backgroundColor.value!!.blue().toInt()))
+
+
+
+
+
+
+
+
 
         // exit the comic page
         binding.buttonClose.setOnClickListener {
