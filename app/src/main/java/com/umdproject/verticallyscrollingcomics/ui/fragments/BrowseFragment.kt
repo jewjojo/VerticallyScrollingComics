@@ -93,6 +93,7 @@ class BrowseFragment : Fragment() {
                                     // Launch reading activity here..... Also need to pull comments.
                                     val readIntent = Intent(activity, ReadComic::class.java)
                                     readIntent.putExtra("comicID", comicId)
+                                    readIntent.putExtra("filePath", requireActivity().filesDir.absolutePath + "/downloads/" + comicId)
                                     ContextCompat.startActivity(requireActivity(), readIntent, null)
                                 }
 
