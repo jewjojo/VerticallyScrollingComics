@@ -20,6 +20,7 @@ import com.umdproject.verticallyscrollingcomics.viewModels.MainViewModel
 class ReadComic : AppCompatActivity() {
     private lateinit var comicViewModel: CurrentComicViewModel
     private lateinit var accountViewModel: MainViewModel
+    private lateinit var comicID: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +34,10 @@ class ReadComic : AppCompatActivity() {
         // set comic title from intent
         binding.readerTitleText.text = comicViewModel.title.toString()
 
+        if (intent.hasExtra("comicID")) {
+            comicID = intent.getStringExtra("comicID")!!
+        }
+
         // exit the comic page
         binding.buttonClose.setOnClickListener {
 
@@ -41,6 +46,7 @@ class ReadComic : AppCompatActivity() {
 
         binding.buttonComments.setOnClickListener {
             val intent = Intent(this, ReadComments::class.java)
+            intent.putExtra("comicID", comicID)
             startActivity(intent)
         }
     }

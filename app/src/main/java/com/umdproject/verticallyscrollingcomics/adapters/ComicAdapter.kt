@@ -23,6 +23,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.umdproject.verticallyscrollingcomics.activities.EditComicActivity
+import com.umdproject.verticallyscrollingcomics.dataClasses.Comment
 import com.umdproject.verticallyscrollingcomics.ui.fragments.LocalComicPreview
 import java.io.File
 import java.io.FileInputStream
@@ -140,6 +141,11 @@ class ComicAdapter(private val activity: FragmentActivity, private val mContext:
                     ratingCountRef.setValue(0)
                     val ratingAverageRef = database.getReference("readableComics/" + comicId + "/" + "ratingAverage")
                     ratingAverageRef.setValue(0)
+
+                    val commentsListRef = database.getReference("comicComments/" + comicId + "/" + 0.toString())
+                    commentsListRef.setValue(Comment("0", "VSC", "Welcome to the discussion! Add your thoughts here.")).addOnFailureListener { e ->
+                        Log.d("VSC_PUBLISH", e.toString())
+                    }
 
                     Toast.makeText(mContext, "Successfully uploaded comic!", Toast.LENGTH_SHORT).show()
                 } else {

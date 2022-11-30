@@ -1,5 +1,6 @@
 package com.umdproject.verticallyscrollingcomics.ui.fragments
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
@@ -14,6 +16,7 @@ import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ListResult
 import com.google.firebase.storage.ktx.storage
+import com.umdproject.verticallyscrollingcomics.activities.ReadComic
 import com.umdproject.verticallyscrollingcomics.dataClasses.ReadableComic
 import com.umdproject.verticallyscrollingcomics.dataClasses.ReadableComicList
 import com.umdproject.verticallyscrollingcomics.databinding.BrowseFragmentBinding
@@ -83,12 +86,17 @@ class BrowseFragment : Fragment() {
                     var numDownloads = 0
                     listResult.items.forEachIndexed { index, storageReference ->
                         comicStorageRef.child(storageReference.name)
-                            .getFile(File(requireActivity().filesDir, "/downloads/" + comicId + "/" + storageReference.name))
-                        numDownloads++
-                        if (numDownloads == listResult.items.size) { // Downloaded last file!
-                            // Need to put all code depending on listAll() completing here, since it's async
-                            // Launch reading activity here..... Also need to pull comments.
-                        }
+                            .getFile(File(requireActivity().filesDir, "/downloads/" + comicId + "/" + storageReference.name)).addOnSuccessListener {
+                                numDownloads++
+                                if (numDownloads == listResult.items.size) { // Downloaded last file!
+                                    // Need to put all code depending on download completing here, since it's async
+                                    // Launch reading activity here..... Also need to pull comments.
+                                    val readIntent = Intent(activity, ReadComic::class.java)
+                                    readIntent.putExtra("comicID", comicId)
+                                    ContextCompat.startActivity(requireActivity(), readIntent, null)
+                                }
+
+                            }
                     }
 
                 }

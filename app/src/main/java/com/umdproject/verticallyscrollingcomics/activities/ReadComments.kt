@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.umdproject.verticallyscrollingcomics.R
 import com.umdproject.verticallyscrollingcomics.dataClasses.Comment
@@ -22,6 +23,8 @@ class ReadComments : AppCompatActivity() {
     private lateinit var accountViewModel: MainViewModel
     private lateinit var comments: MutableList<Comment>
 
+    private lateinit var auth: FirebaseAuth
+
 
     private lateinit var databaseReadableComments: DatabaseReference
 
@@ -33,6 +36,8 @@ class ReadComments : AppCompatActivity() {
 
         comicViewModel = ViewModelProvider(this)[CurrentComicViewModel::class.java]
         accountViewModel = ViewModelProvider(this)[MainViewModel::class.java]
+
+        auth = FirebaseAuth.getInstance()
 
         // set comic title from intent
         binding.editorTitleText.text = comicViewModel.title.toString()
@@ -46,12 +51,13 @@ class ReadComments : AppCompatActivity() {
             val yourComment: String = binding.comment.text.toString()
 
             //check if signed in
-            if (accountViewModel.email.value.isNullOrBlank()) {
+            if (auth.currentUser == null || auth.currentUser!!.uid == "0") {
                 Toast.makeText(
                     this,
                     getString(R.string.sign_in_toast),
                     Toast.LENGTH_LONG
                 ).show()
+                return@setOnClickListener
             }
 
             if (!TextUtils.isEmpty(yourComment)) {
@@ -109,7 +115,7 @@ class ReadComments : AppCompatActivity() {
         val id = databaseReadableComments.push().key
 
         // create comment object
-        val comment = Comment(id!!, yourComment)
+        val comment = Comment(id!!, auth.currentUser!!.email!!, yourComment)
 
         // add comment to firebase
         databaseReadableComments.child(id).setValue(comment)
