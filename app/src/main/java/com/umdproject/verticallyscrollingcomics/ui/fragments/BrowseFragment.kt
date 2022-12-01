@@ -75,6 +75,9 @@ class BrowseFragment : Fragment() {
             val downloadDir = File(requireActivity().filesDir, "/downloads/" + comicId)
             if (!downloadDir.exists()) {
                 downloadDir.mkdirs()
+            } else {
+                deleteDirectory(downloadDir)
+                downloadDir.mkdirs()
             }
 
             var root = storage.reference
@@ -94,6 +97,7 @@ class BrowseFragment : Fragment() {
                                     val readIntent = Intent(activity, ReadComic::class.java)
                                     readIntent.putExtra("comicID", comicId)
                                     readIntent.putExtra("filePath", requireActivity().filesDir.absolutePath + "/downloads/" + comicId)
+                                    readIntent.putExtra("launchedFromPreview", false)
                                     ContextCompat.startActivity(requireActivity(), readIntent, null)
                                 }
 
@@ -146,11 +150,24 @@ class BrowseFragment : Fragment() {
                 }
             }
 
+
+
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
 
         })
+
+    }
+
+    fun deleteDirectory(directoryToBeDeleted: File): Boolean {
+        val allContents = directoryToBeDeleted.listFiles()
+        if (allContents != null) {
+            for (file in allContents) {
+                deleteDirectory(file)
+            }
+        }
+        return directoryToBeDeleted.delete()
     }
 
 }

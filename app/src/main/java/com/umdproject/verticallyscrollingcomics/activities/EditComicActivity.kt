@@ -23,13 +23,11 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.umdproject.verticallyscrollingcomics.R
 import com.umdproject.verticallyscrollingcomics.adapters.EditorPanelAdapter
@@ -40,9 +38,7 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
-import java.util.*
 import kotlin.properties.Delegates
-import kotlin.random.Random.Default.nextInt
 
 
 // check GraphicsPaint in class repo to paint toolbar
@@ -290,6 +286,61 @@ class EditComicActivity : AppCompatActivity() {
             }
         }
 
+        binding.previewComicButton.setOnClickListener {
+            if (viewModel.author.value!! == "" || viewModel.title.value!! == "" || viewModel.panels.value!!.size == 0) {
+                Toast.makeText(applicationContext, "Make sure to set an author name, comic title, and add some panels!", Toast.LENGTH_LONG).show()
+            } else {
+
+                val tempDir = this.filesDir.toString() + "/currPreview/"
+                if (!File(this.filesDir.toString() + "/currPreview/").exists()) {
+                    File(this.filesDir.toString() + "/currPreview/").mkdirs()
+                } else {
+                    deleteDirectory(File(this.filesDir.toString() + "/currPreview/"))
+                    File(this.filesDir.toString() + "/currPreview/").mkdirs()
+                }
+
+                viewModel.panels.value!!.forEachIndexed { i, panel ->
+                    val panelFile = File(tempDir + "/" + (i + 1).toString() + ".png")
+                    panelFile.createNewFile()
+                    val panelOut = panelFile.outputStream()
+                    var panelImg = Bitmap.createScaledBitmap(panel.image, 600, 1000, true)
+                    val completed = panelImg.compress(Bitmap.CompressFormat.PNG, 100, panelOut)
+                    Log.d("VSC_SAVE", completed.toString())
+                    panelOut.flush()
+                    panelOut.close()
+                }
+
+                val jsonMetadataStream = File(tempDir + "/" + "metadata.json").outputStream()
+                val jsonWriter = JsonWriter(OutputStreamWriter(jsonMetadataStream))
+                jsonWriter.setIndent("  ")
+
+
+                // Writing JSON
+
+                jsonWriter.beginObject()
+                jsonWriter.name("author").value(viewModel.author.value!!)
+                jsonWriter.name("title").value(viewModel.title.value!!)
+                jsonWriter.name("bgRed").value(viewModel.backgroundColor.value!!.red())
+                jsonWriter.name("bgGreen").value(viewModel.backgroundColor.value!!.green())
+                jsonWriter.name("bgBlue").value(viewModel.backgroundColor.value!!.blue())
+                jsonWriter.name("scrollSpeed").value(viewModel.scrollSpeed.value!!)
+                jsonWriter.name("panelSpacing").value(viewModel.panelSpacing.value!!)
+
+                generateHapticsPrefsBooleanArr(jsonWriter)
+                jsonWriter.endObject()
+
+                jsonWriter.close()
+
+                val readIntent = Intent(this, ReadComic::class.java)
+                readIntent.putExtra("comicID", "0")
+                readIntent.putExtra("filePath", tempDir)
+                readIntent.putExtra("launchedFromPreview", true)
+                ContextCompat.startActivity(this, readIntent, null)
+
+
+            }
+        }
+
 
         mRecyclerView.layoutManager = GridLayoutManager(
             this, 3
@@ -467,6 +518,16 @@ class EditComicActivity : AppCompatActivity() {
 
     companion object PermissionInfo {
         const val PERMISSION = Manifest.permission.READ_EXTERNAL_STORAGE
+    }
+
+    fun deleteDirectory(directoryToBeDeleted: File): Boolean {
+        val allContents = directoryToBeDeleted.listFiles()
+        if (allContents != null) {
+            for (file in allContents) {
+                deleteDirectory(file)
+            }
+        }
+        return directoryToBeDeleted.delete()
     }
 
 }

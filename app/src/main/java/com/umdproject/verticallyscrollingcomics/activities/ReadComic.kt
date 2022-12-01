@@ -22,6 +22,7 @@ import com.umdproject.verticallyscrollingcomics.viewModels.CurrentComicViewModel
 import java.io.File
 import java.io.FileInputStream
 import java.io.InputStreamReader
+import kotlin.properties.Delegates
 
 
 // check GraphicsPaint in class repo to paint toolbar
@@ -31,6 +32,7 @@ class ReadComic : AppCompatActivity() {
     private lateinit var filePath: String
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var readComicAdapter: ReadComicAdapter
+    private var launchedFromPreview by Delegates.notNull<Boolean>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +47,9 @@ class ReadComic : AppCompatActivity() {
         }
         if (intent.hasExtra("filePath")) {
             filePath = intent.getStringExtra("filePath")!!
+        }
+        if (intent.hasExtra("launchedFromPreview")) {
+            launchedFromPreview = intent.getBooleanExtra("launchedFromPreview", false)
         }
 
         populateExistingData()
@@ -81,9 +86,13 @@ class ReadComic : AppCompatActivity() {
         }
 
         binding.buttonComments.setOnClickListener {
-            val intent = Intent(this, ReadComments::class.java)
-            intent.putExtra("comicID", comicID)
-            startActivity(intent)
+            if (launchedFromPreview) {
+                Toast.makeText(applicationContext, "Comments are disabled in preview mode.", Toast.LENGTH_LONG).show()
+            } else {
+                val intent = Intent(this, ReadComments::class.java)
+                intent.putExtra("comicID", comicID)
+                startActivity(intent)
+            }
         }
     }
 

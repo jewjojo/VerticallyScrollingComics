@@ -40,7 +40,7 @@ class ReadComments : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         // set comic title from intent
-        binding.editorTitleText.text = comicViewModel.title.toString()
+        binding.editorTitleText.text = comicViewModel.title.value.toString()
 
         // exit the comments page
         binding.buttonSaveAndExit.setOnClickListener {
