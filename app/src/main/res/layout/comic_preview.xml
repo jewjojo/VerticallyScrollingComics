@@ -29,12 +29,7 @@
         android:paddingLeft="8dp"
         android:paddingTop="4dp"
         android:paddingRight="8dp"
-        android:textColor="#FFE0B2"
-        android:shadowColor="@color/black"
-        android:shadowDx="1.5"
-        android:shadowDy="1.3"
-        android:shadowRadius="1.6"
-        android:textStyle="bold"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         tools:text="tempTitle" />
 
     <TextView
@@ -42,11 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:textColor="#FFE0B2"
-        android:shadowColor="@color/black"
-        android:shadowDx="1.5"
-        android:shadowDy="1.3"
-        android:shadowRadius="1.6"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
 
 
         tools:text="tempAuthor" />
