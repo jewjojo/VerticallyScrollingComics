@@ -73,7 +73,7 @@
             android:paddingStart="30dp"
             android:paddingEnd="30dp"
 
-            android:padding="0dp"
+            android:padding="30dp"
 
             android:layout_height="match_parent"
             android:scrollbars="vertical" />

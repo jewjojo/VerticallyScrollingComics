@@ -1,13 +1,17 @@
 package com.umdproject.verticallyscrollingcomics.activities
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Vibrator
 import android.util.JsonReader
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.getSystemService
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -54,8 +58,14 @@ class ReadComic : AppCompatActivity() {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     val position: Int = (mRecyclerView.layoutManager as LinearLayoutManager?)!!
-                        .findFirstVisibleItemPosition()
-                    // Handle haptic feedback if position has haptics
+                        .findFirstCompletelyVisibleItemPosition()
+                    // Handle haptic feedback if position has haptics. Need to watch out for readings <0 or >number of panels
+                    if (position > 0 && position < viewModel.panels.value!!.size) {
+                        if (viewModel.panels.value!![position].hasHaptics) {
+                            val vibratorService = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                            vibratorService.vibrate(300)
+                        }
+                    }
                 }
             }
         })
@@ -64,14 +74,6 @@ class ReadComic : AppCompatActivity() {
         binding.readerTitleText.text = viewModel.title.value!!
         // Set background color
         binding.bgColorView.setBackgroundColor(Color.rgb(viewModel.backgroundColor.value!!.red().toInt(), viewModel.backgroundColor.value!!.green().toInt(), viewModel.backgroundColor.value!!.blue().toInt()))
-
-
-
-
-
-
-
-
 
         // exit the comic page
         binding.buttonClose.setOnClickListener {

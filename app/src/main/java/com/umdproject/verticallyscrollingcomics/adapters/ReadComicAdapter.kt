@@ -49,6 +49,8 @@ internal class ReadComicAdapter(context: Context, viewModelIn: CurrentComicViewM
         private val mPanel: ImageView
         init {
             mPanel = itemView.findViewById(R.id.reader_panel_image)
+            // Set spacing from viewmodel
+            mPanel.setPadding(0,0,0, viewModel.panelSpacing.value!! * 2)
         }
 
         fun bindTo(currentPanel: ComicPanel) {
