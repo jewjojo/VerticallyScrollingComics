@@ -113,7 +113,7 @@ class EditComicActivity : AppCompatActivity() {
             val spacingDialog = dialogBuilder.create()
             spacingDialog.show()
         }
-
+/*
         binding.scrollSpeedButton.setOnClickListener() {
             val dialogBuilder = AlertDialog.Builder(this)
             val seekBar = SeekBar(this)
@@ -145,7 +145,7 @@ class EditComicActivity : AppCompatActivity() {
             val speedDialog = dialogBuilder.create()
             speedDialog.show()
         }
-
+*/
         binding.metadata.setOnClickListener() {
             val dialogBuilder = AlertDialog.Builder(this)
             dialogBuilder.setCancelable(false)

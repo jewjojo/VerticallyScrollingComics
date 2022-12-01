@@ -95,7 +95,7 @@
             android:text="@string/metadata"
             tools:ignore="TouchTargetSizeCheck,TextContrastCheck"></Button>
 
-
+<!--
         <Button
             android:id="@+id/scrollSpeedButton"
             style="?android:attr/buttonBarButtonStyle"
@@ -106,7 +106,7 @@
             android:maxLines="2"
             android:text="@string/scroll_speed"
             tools:ignore="TouchTargetSizeCheck,TextContrastCheck"></Button>
-
+-->
         <Button
             android:id="@+id/panelSpacingButton"
             style="?android:attr/buttonBarButtonStyle"
