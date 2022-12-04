@@ -27,6 +27,7 @@
             android:text="@string/browse"
             tools:ignore="TextContrastCheck" />
 
+        <!-- Bookmarks Button, Add in functionality later
         <Button
             android:id="@+id/buttonContinueReading"
             style="?android:attr/buttonBarButtonStyle"
@@ -38,6 +39,7 @@
             android:maxLines="2"
             android:text="@string/continue_10_reading"
             tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
+            -->
 
         <Button
             android:id="@+id/buttonCreate"

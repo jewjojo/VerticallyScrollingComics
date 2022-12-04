@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.JsonReader
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         val binding = HomePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
+        //binding.buttonContinueReading.visibility = View.INVISIBLE
 
         // Splash Screen load in and hide
         //supportActionbar?.hide()
@@ -60,12 +62,13 @@ class MainActivity : AppCompatActivity() {
                 .commitNow()
         }
 
-        // change fragment on Continue Reading press
+        // Removed Bookmarks button, implement at a later date
+        /*
         binding.buttonContinueReading.setOnClickListener {
             supportFragmentManager.beginTransaction()
                 .replace(binding.fragmentContainerView.id, ContinueReadingFragment.newInstance())
                 .commitNow()
-        }
+        } */
 
         // change fragment on Create press
         binding.buttonCreate.setOnClickListener {
