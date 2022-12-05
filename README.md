@@ -1,3 +1,3 @@
 Contributors: Joe C. Bernstein, Ethan Coates, Matthew Island, and Meehan Imam
 
-Website: https://jewjojo.github.io/VerticallyScrollingComics/
+Website: https://jewjojo.github.io/VerticallyScrollingComics/index.html
